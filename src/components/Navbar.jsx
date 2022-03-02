@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../App.css";
 
 // Media
@@ -9,22 +10,28 @@ const Navbar = () => {
   const [showBg, setShowBg] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    const scrollFun = () => {
       if (window.scrollY > 200) setShowBg(true);
       else setShowBg(false);
-    });
+    };
+
+    window.addEventListener("scroll", scrollFun);
     return () => {
-      window.removeEventListener("scroll");
+      window.removeEventListener("scroll", scrollFun);
     };
   }, []);
 
   return (
     <header className={`navbar ${showBg ? "showBg" : ""}`}>
       <div className="brand__logo">
-        <img src={Netflix} alt="Netflix-Brand" />
+        <Link to="/">
+          <img src={Netflix} alt="Netflix-Brand" />
+        </Link>
       </div>
       <div className="avatar__logo">
-        <img src={Avatar} alt="Avatar" />
+        <Link to="/">
+          <img src={Avatar} alt="Avatar" />
+        </Link>
       </div>
     </header>
   );

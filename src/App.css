@@ -17,7 +17,7 @@ header.navbar {
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 2;
+  z-index: 5;
   padding-top: 10px;
   padding-bottom: 3px;
   display: flex;
@@ -60,7 +60,7 @@ header.navbar {
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.6);
-  opacity: 0.3;
+  opacity: 0.5;
   transition: all 1s;
   -webkit-transition: all 1s;
 }
@@ -69,6 +69,7 @@ header.navbar {
   margin: auto 0 auto 5rem;
   color: #fff;
   opacity: 1;
+  z-index: 2;
 }
 
 .banner__title {

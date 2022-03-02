@@ -1,47 +1,25 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 // Custom Components
 import Navbar from "./components/Navbar";
-import Banner from "./components/Banner";
-import ItemsRow from "./components/ItemsRow";
-
-// requests
-import requests from "./lib/request";
+import Home from "./components/Home";
+import ItemDetails from "./components/ItemDetails";
 
 const App = () => {
   return (
     <React.Fragment>
-      {/* Header & Banner */}
-      <Navbar />
-      <Banner fetchURI={requests.fetchNetflixOriginals} />
+      <BrowserRouter>
+        {/* Header */}
+        <Navbar />
 
-      {/* All Netflix Data */}
-      <div className="all_rows__container">
-        <ItemsRow
-          title="NETFLIX ORIGINALS"
-          fetchURI={requests.fetchNetflixOriginals}
-          isLarge
-        />
-        <ItemsRow title="Trending Now" fetchURI={requests.fetchTrending} />
-        <ItemsRow title="Top Rated" fetchURI={requests.fetchTopRated} />
-        <ItemsRow title="TV Shows" fetchURI={requests.fetchTV} />
-        <ItemsRow title="Action Movies" fetchURI={requests.fetchActionMovies} />
-        <ItemsRow title="Comedy Movies" fetchURI={requests.fetchComedyMovies} />
-        <ItemsRow
-          title="Romantic Movies"
-          fetchURI={requests.fetchRomanceMovies}
-        />
-        <ItemsRow title="Animation Movies" fetchURI={requests.fetchAnimation} />
-        <ItemsRow title="Horror Movies" fetchURI={requests.fetchHorrorMovies} />
-        <ItemsRow
-          title="Documentories"
-          fetchURI={requests.fetchDocumantaries}
-        />
-        <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
-        <ItemsRow title="Western" fetchURI={requests.fetchWestern} />
-        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} />
-      </div>
+        {/* Routing b/w Home and ItemDetails Component */}
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/item/:id" element={<ItemDetails />} />
+        </Routes>
+      </BrowserRouter>
     </React.Fragment>
   );
 };

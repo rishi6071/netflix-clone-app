@@ -3,7 +3,6 @@ import axios from "../lib/axios";
 
 const ItemsRow = ({ title, fetchURI, isLarge }) => {
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
-
   const [movies, setMovies] = useState([]);
 
   useLayoutEffect(() => {
