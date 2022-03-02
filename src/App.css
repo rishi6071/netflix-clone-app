@@ -46,15 +46,29 @@ header.navbar {
 /* ==== Banner.jsx ==== */
 .banner__container {
   object-fit: contain;
-  height: 458px;
+  height: 468px;
   margin-bottom: 25px;
   display: flex;
   flex-direction: column;
 }
 
+.banner__container:after {
+  content: "\A";
+  position: absolute;
+  width: 100%;
+  height: 468px;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0.3;
+  transition: all 1s;
+  -webkit-transition: all 1s;
+}
+
 .banner__box {
   margin: auto 0 auto 5rem;
   color: #fff;
+  opacity: 1;
 }
 
 .banner__title {
@@ -87,7 +101,7 @@ header.navbar {
   width: 50%;
   line-height: 1.6;
   letter-spacing: 0.8px;
-  font-weight: 500;
+  color: rgb(240, 239, 239);
 }
 
 .banner__fadebottom {
@@ -129,7 +143,7 @@ header.navbar {
 .item__img {
   object-fit: contain;
   width: 100%;
-  max-height: 120px;
+  max-height: 130px;
   margin-right: 15px;
   border-radius: 2px;
   cursor: pointer;
@@ -137,7 +151,7 @@ header.navbar {
 }
 
 .largePoster {
-  max-height: 230px;
+  max-height: 240px;
 }
 
 .item__img:hover {
