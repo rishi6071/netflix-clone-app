@@ -12,8 +12,9 @@ import requests from "./lib/request";
 const App = () => {
   return (
     <React.Fragment>
-      {/* Header */}
-      <Banner fetchURI={requests.fetchNetflixOriginals} />
+      {/* Header & Banner */}
+      <Navbar />
+      <Banner />
 
       {/* All Netflix Data */}
       <div className="all_rows__container">

@@ -12,12 +12,38 @@ body {
   margin: 15px;
 }
 
+/* ==== Navbar.jsx ==== */
+
+header.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand__logo img {
+  object-fit: contain;
+  width: 100px;
+  transform: scale(1.09);
+  margin-left: 2rem;
+}
+
+.avatar__logo img {
+  object-fit: contain;
+  width: 40px;
+  margin-right: 2rem;
+}
+
 /* ==== Banner.jsx ==== */
 
 .banner__container {
   object-fit: contain;
   height: 448px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   display: flex;
 }
 
@@ -27,7 +53,6 @@ body {
 }
 
 .banner__title {
-  /* color: #fff; */
   font-weight: 800;
   letter-spacing: 1px;
 }
@@ -81,6 +106,15 @@ body {
   height: 7.4rem;
 }
 
+@media screen and (max-width: 768px) {
+  .banner__box {
+    margin-left: 2rem;
+  }
+  .banner__desc {
+    width: 80%;
+  }
+}
+
 /* ==== ItemsRow.jsx ==== */
 .items__row__box {
   display: block;
@@ -90,7 +124,6 @@ body {
   color: #fff;
   font-size: larger;
   letter-spacing: 1px;
-  /* font-variant: small-caps; */
 }
 
 .items__box {

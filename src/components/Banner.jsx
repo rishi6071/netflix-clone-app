@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import requests from "../lib/request";
 import axios from "../lib/axios";
 import "../App.css";
 
-const Banner = ({ fetchURI }) => {
+const Banner = () => {
   const [movie, setMovie] = useState({});
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get(fetchURI)
+        .get(requests.fetchNetflixOriginals)
         .then((response) => {
           return response.data.results;
         })
@@ -22,12 +23,7 @@ const Banner = ({ fetchURI }) => {
         });
     };
     fetchData();
-  }, [fetchURI]);
-
-  useEffect(() => {
-    console.log(movie);
-    console.log(movie.name);
-  }, [movie]);
+  }, []);
 
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
