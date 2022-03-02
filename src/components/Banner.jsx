@@ -56,7 +56,7 @@ const Banner = () => {
               </button>
             </div>
 
-            <p className="banner__desc">{truncate(movie?.overview, 150)}</p>
+            <p className="banner__desc">{truncate(movie?.overview, 160)}</p>
           </div>
 
           <div className="banner__fadebottom"></div>

@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 
 // Media
@@ -7,8 +6,20 @@ import Netflix from "../media/brand.png";
 import Avatar from "../media/avatar.png";
 
 const Navbar = () => {
+  const [showBg, setShowBg] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 200) setShowBg(true);
+      else setShowBg(false);
+    });
+    return () => {
+      window.removeEventListener("scroll");
+    };
+  }, []);
+
   return (
-    <header className="navbar">
+    <header className={`navbar ${showBg ? "showBg" : ""}`}>
       <div className="brand__logo">
         <img src={Netflix} alt="Netflix-Brand" />
       </div>
