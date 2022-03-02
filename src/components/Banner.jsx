@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import requests from "../lib/request";
 import axios from "../lib/axios";
 import "../App.css";
 
-const Banner = () => {
+const Banner = ({ fetchURI }) => {
   const [movie, setMovie] = useState({});
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get(requests.fetchNetflixOriginals)
+        .get(fetchURI)
         .then((response) => {
           return response.data.results;
         })

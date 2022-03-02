@@ -14,7 +14,7 @@ const App = () => {
     <React.Fragment>
       {/* Header & Banner */}
       <Navbar />
-      <Banner />
+      <Banner fetchURI={requests.fetchNetflixOriginals} />
 
       {/* All Netflix Data */}
       <div className="all_rows__container">
