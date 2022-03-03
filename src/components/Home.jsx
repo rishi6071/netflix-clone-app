@@ -22,8 +22,8 @@ const Home = () => {
         <ItemsRow title="Top Rated" fetchURI={requests.fetchTopRated} />
         <ItemsRow title="TV Shows" fetchURI={requests.fetchTV} />
         <ItemsRow title="Action Movies" fetchURI={requests.fetchActionMovies} />
-        <ItemsRow title="Comedy Movies" fetchURI={requests.fetchComedyMovies} />
-        <ItemsRow
+        <ItemsRow title="Comedies" fetchURI={requests.fetchComedyMovies} />
+        {/* <ItemsRow
           title="Romantic Movies"
           fetchURI={requests.fetchRomanceMovies}
         />
@@ -35,7 +35,7 @@ const Home = () => {
         />
         <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
         <ItemsRow title="Western" fetchURI={requests.fetchWestern} />
-        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} />
+        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} /> */}
       </div>
     </>
   );

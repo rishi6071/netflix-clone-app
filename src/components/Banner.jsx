@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import axios from "../lib/axios";
 import "../App.css";
 
@@ -6,7 +6,7 @@ const Banner = ({ fetchURI }) => {
   const [movie, setMovie] = useState({});
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchData = async () => {
       await axios
         .get(fetchURI)
@@ -14,6 +14,7 @@ const Banner = ({ fetchURI }) => {
           return response.data.results;
         })
         .then((res) => {
+          console.log(res[0]);
           setMovie(res[Math.floor(Math.random() * res.length - 1)]);
           return res;
         })
@@ -42,16 +43,20 @@ const Banner = ({ fetchURI }) => {
           }}
         >
           <div className="banner__box">
+            <p className="banner__rating">
+              <i className="bx bxs-star"></i> <span>{movie?.vote_average}</span>
+            </p>
+
             <h1 className="banner__title">
               {movie?.title || movie?.name || movie?.original_name}
             </h1>
 
             <div className="buttons__box">
               <button type="button" className="banner__button">
-                Play
+                <i className="bx bx-play"></i> <span>Play</span>
               </button>
               <button type="button" className="banner__button">
-                My List
+                <i className="bx bx-info-circle"></i> <span>More Info</span>
               </button>
             </div>
 
