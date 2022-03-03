@@ -14,7 +14,7 @@ const Banner = ({ fetchURI }) => {
           return response.data.results;
         })
         .then((res) => {
-          console.log(res[0]);
+          // console.log(res[0]);
           setMovie(res[Math.floor(Math.random() * res.length - 1)]);
           return res;
         })
