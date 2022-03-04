@@ -59,7 +59,7 @@ const ItemDetails = () => {
         </div>
 
         <div className="itemdetails__meta__info">
-          <span>{(movie?.release_date).substr(0, 4)}</span>{" "}
+          <span>{movie.release ? movie.release.substr(0, 4) : ""}</span>{" "}
           <span>{GetRunTime(movie?.runtime)}</span>{" "}
           <span>{IsAdultContent(movie?.adult)}</span>
         </div>
