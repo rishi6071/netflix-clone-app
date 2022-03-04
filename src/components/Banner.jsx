@@ -1,8 +1,10 @@
 import React, { useState, useLayoutEffect } from "react";
 import axios from "../lib/axios";
 import "../App.css";
+import { useNavigate } from "react-router-dom";
 
 const Banner = ({ fetchURI }) => {
+  const navigate = useNavigate();
   const [movie, setMovie] = useState({});
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
@@ -25,6 +27,8 @@ const Banner = ({ fetchURI }) => {
     fetchData();
   }, [fetchURI]);
 
+  const NavigateToItem = (event) => navigate(`/item/${event.target.id}`);
+
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
@@ -34,6 +38,7 @@ const Banner = ({ fetchURI }) => {
       {movie ? (
         <div
           className="banner__container"
+          id={movie?.id}
           style={{
             backgroundSize: "cover",
             backgroundImage: `${
@@ -55,8 +60,14 @@ const Banner = ({ fetchURI }) => {
               <button type="button" className="banner__button">
                 <i className="bx bx-play"></i> <span>Play</span>
               </button>
-              <button type="button" className="banner__button">
-                <i className="bx bx-info-circle"></i> <span>More Info</span>
+              <button
+                type="button"
+                className="banner__button"
+                id={movie?.id}
+                onClick={NavigateToItem}
+              >
+                <i className="bx bx-info-circle" id={movie?.id}></i>{" "}
+                <span id={movie?.id}>More Info</span>
               </button>
             </div>
 
