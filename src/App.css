@@ -19,8 +19,8 @@ header.navbar {
   width: 100%;
   top: 0;
   z-index: 5;
-  padding-top: 10px;
-  padding-bottom: 7px;
+  padding-top: 13px;
+  padding-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,7 +99,7 @@ header.navbar {
   font-family: "Bebas Neue", cursive;
   text-transform: uppercase;
   font-size: 2.5rem;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   opacity: 0.9;
 }
 
@@ -197,7 +197,7 @@ header.navbar {
   margin-right: 15px;
   border-radius: 2px;
   cursor: pointer;
-  transition: transform 0.5s;
+  transition: all 0.5s;
   position: relative;
 }
 
@@ -207,6 +207,138 @@ header.navbar {
 
 .item__img:hover {
   transform: scale(1.06);
+  opacity: 0.6;
+}
+
+/* ==== ItemDetails.jsx ==== */
+.itemdetails__container {
+  width: 90%;
+  margin: auto;
+  margin-top: 5.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.itemdetails__img__box {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.itemdetails__content__box {
+  flex: 2;
+}
+
+.itemdetails__content__box {
+  padding: 2rem 1rem 2rem 4rem;
+}
+
+.itemdetails__img {
+  max-width: 100%;
+  max-height: 478px;
+  object-fit: cover;
+}
+
+.itemdetails__title__rating__box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemdetails__title {
+  font-family: "Fredoka", sans-serif;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.itemdetails__rating {
+  font-family: "Fredoka", sans-serif;
+  color: #fff;
+  margin-left: 2rem;
+  letter-spacing: 1px;
+}
+
+.itemdetails__rating i {
+  margin-right: 8px;
+  transform: translateY(0.5px) scale(1.08);
+  color: #ffd700;
+}
+
+.itemdetails__meta__info {
+  color: rgba(255, 255, 255, 0.425);
+  margin-top: 0.8rem;
+  font-size: smaller;
+  font-family: "Roboto", sans-serif;
+}
+
+.itemdetails__meta__info span {
+  letter-spacing: 0.7px;
+  padding: 1px 10px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.225);
+}
+
+.itemdetails__meta__info span:nth-child(1) {
+  padding-left: 0px;
+}
+
+.itemdetails__meta__info span:last-child {
+  border-right: none;
+}
+
+.itemdetails__nav__container {
+  margin-top: 2rem;
+}
+
+.itemdetails__nav__tabs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemdetails__nav__tabs button {
+  flex: 1;
+  padding-top: 8px;
+  padding-bottom: 15px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.525);
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 13px;
+  font-family: "Fredoka", sans-serif;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.125);
+  cursor: pointer;
+}
+
+.itemdetails__nav__tabs button:nth-child(1) {
+  border-bottom: 3.5px solid red;
+  color: rgba(255, 255, 255, 0.825);
+  font-weight: 600;
+}
+
+.itemdetails__nav__sections {
+  margin-top: 2rem;
+}
+
+.itemdetails__tagline {
+  font-family: "Fredoka", sans-serif;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-size: large;
+}
+
+.itemdetails__tagline span {
+  margin-right: 5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.itemdetails__desc {
+  font-family: "Fredoka", sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  font-size: 14px;
+  letter-spacing: 0.7px;
 }
 
 /* ==== Media Queries ==== */
@@ -225,5 +357,20 @@ header.navbar {
   }
   .avatar__logo img {
     margin-right: 1.2rem;
+  }
+  .itemdetails__container {
+    flex-direction: column;
+    width: 100%;
+  }
+  .itemdetails__content__box {
+    padding: 2rem 1rem 2rem 1rem;
+  }
+  .itemdetails__img__box {
+    justify-content: center;
+  }
+  .itemdetails__img {
+    width: 85%;
+    max-height: 400px;
+    object-fit: cover;
   }
 }

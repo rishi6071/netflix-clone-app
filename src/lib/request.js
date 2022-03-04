@@ -16,4 +16,14 @@ const requests = {
   fetchTV: `/discover/movie?api_key=${API_KEY}&with_genres=10770`,
 };
 
+const item_requests = (id, API_KEY) => {
+  return {
+    fetchDetails: `/movie/${id}?api_key=${API_KEY}`,
+    fetchImages: `/movie/${id}/images?api_key=${API_KEY}&language=en-US`,
+    fetchVideos: `/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
+    fetchSimilarMovies: `/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`,
+  };
+};
+
 export default requests;
+export { item_requests };
