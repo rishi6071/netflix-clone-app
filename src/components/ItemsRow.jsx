@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
 
-const ItemsRow = ({ title, fetchURI, isLarge }) => {
+const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
   const navigate = useNavigate();
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
   const [movies, setMovies] = useState([]);
@@ -26,7 +26,7 @@ const ItemsRow = ({ title, fetchURI, isLarge }) => {
 
   return (
     <div className="items__row__box">
-      <h2 className="item__row__header">{title}</h2>
+      {!noTitle ? <h2 className="item__row__header">{title}</h2> : ""}
 
       <div className="items__box">
         {[...movies].map((movie) => {
