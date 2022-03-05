@@ -31,18 +31,16 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
       <div className="items__box">
         {[...movies].map((movie) => {
           return (
-            <>
-              <img
-                key={movie?.id}
-                id={movie?.id}
-                src={`${BASE_IMG_URI}${
-                  isLarge ? `${movie.poster_path}` : `${movie.backdrop_path}`
-                }`}
-                className={`item__img ${isLarge ? "large__poster" : ""}`}
-                alt={movie.original_name}
-                onClick={NavigateToItem}
-              />
-            </>
+            <img
+              key={movie?.id}
+              id={movie?.id}
+              src={`${BASE_IMG_URI}${
+                isLarge ? `${movie.poster_path}` : `${movie.backdrop_path}`
+              }`}
+              className={`item__img ${isLarge ? "large__poster" : ""}`}
+              alt={movie.original_name}
+              onClick={NavigateToItem}
+            />
           );
         })}
       </div>

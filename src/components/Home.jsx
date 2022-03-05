@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+
+// axios & requests
+import axios from "axios";
+import { faq_request } from "../lib/request";
 
 // Icons & Media
 import HomeBanner from "../media/home_banner.png";
@@ -12,6 +16,24 @@ import ChildrenBanner from "../media/children.png";
 const Home = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [faqs, setFaqs] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get(faq_request)
+        .then((response) => {
+          return response.data.data;
+        })
+        .then((res) => {
+          setFaqs(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchData();
+  }, []);
 
   const handleEmail = (event) => setEmail(event.target.value);
   const NavigateToBrowse = (event) => {
@@ -58,7 +80,7 @@ const Home = () => {
               required
             />
             <button type="submit" className="getStartedButton">
-              <span>Get Started</span> <i class="bx bx-chevron-right"></i>
+              <span>Get Started</span> <i className="bx bx-chevron-right"></i>
             </button>
           </form>
         </div>
@@ -120,6 +142,59 @@ const Home = () => {
           <p className="info__banner__desc">
             Save your favourites easily and always have something to watch.
           </p>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="faq__container">
+        <h1 className="faq__heading">Frequently Asked Questions</h1>
+        <div className="accordion accordion-flush" id="accordionFlushExample">
+          {[...faqs].map((faq) => {
+            return (
+              <div className="accordion-item" key={`faq_${faq.id}`}>
+                <h2 className="accordion-header" id={`flush-heading_${faq.id}`}>
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target={`#flush-collapse_${faq.id}`}
+                    aria-expanded="false"
+                    aria-controls={`flush-collapse_${faq.id}`}
+                  >
+                    {faq.title}
+                  </button>
+                </h2>
+                <div
+                  id={`flush-collapse_${faq.id}`}
+                  className="accordion-collapse collapse"
+                  aria-labelledby={`flush-heading_${faq.id}`}
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">{faq.desc}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="faq__form__container">
+          <form
+            className="home__banner__form__group"
+            onSubmit={NavigateToBrowse}
+          >
+            <input
+              type="email"
+              id="getStartedInput"
+              name="getStartedInput"
+              value={email}
+              onChange={handleEmail}
+              placeholder="Email Address..."
+              required
+            />
+            <button type="submit" className="getStartedButton">
+              <span>Get Started</span> <i className="bx bx-chevron-right"></i>
+            </button>
+          </form>
         </div>
       </div>
     </div>

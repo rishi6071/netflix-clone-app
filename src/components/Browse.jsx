@@ -33,9 +33,9 @@ const Browse = () => {
           title="Documentories"
           fetchURI={requests.fetchDocumantaries}
         />
-        <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
+        {/* <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
         <ItemsRow title="Western" fetchURI={requests.fetchWestern} />
-        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} />
+        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} /> */}
       </div>
     </>
   );

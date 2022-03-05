@@ -26,5 +26,7 @@ const item_requests = (id, API_KEY) => {
   };
 };
 
+const faq_request = "https://api.npoint.io/85f2406f3ff60e1bab50";
+
 export default requests;
-export { item_requests };
+export { item_requests, faq_request };
