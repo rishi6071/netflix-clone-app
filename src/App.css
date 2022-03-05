@@ -233,6 +233,15 @@ header.navbar {
   justify-content: center;
 }
 
+.faq__form__container .home__banner__form__group {
+  display: flex;
+  justify-content: center;
+}
+
+.faq__form__container .home__banner__form__group input {
+  transform: translateY(0.2px);
+}
+
 /* ==== Browse.jsx ==== */
 .all_rows__container {
   padding: 15px;
@@ -681,6 +690,9 @@ header.navbar {
   }
   .faq__container .accordion {
     width: 90%;
+  }
+  .faq__form__container .home__banner__form__group {
+    flex-direction: column;
   }
 }
 

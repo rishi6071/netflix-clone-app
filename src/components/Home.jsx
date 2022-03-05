@@ -147,35 +147,52 @@ const Home = () => {
 
       {/* FAQ Section */}
       <div className="faq__container">
-        <h1 className="faq__heading">Frequently Asked Questions</h1>
-        <div className="accordion accordion-flush" id="accordionFlushExample">
-          {[...faqs].map((faq) => {
-            return (
-              <div className="accordion-item" key={`faq_${faq.id}`}>
-                <h2 className="accordion-header" id={`flush-heading_${faq.id}`}>
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={`#flush-collapse_${faq.id}`}
-                    aria-expanded="false"
-                    aria-controls={`flush-collapse_${faq.id}`}
-                  >
-                    {faq.title}
-                  </button>
-                </h2>
-                <div
-                  id={`flush-collapse_${faq.id}`}
-                  className="accordion-collapse collapse"
-                  aria-labelledby={`flush-heading_${faq.id}`}
-                  data-bs-parent="#accordionFlushExample"
-                >
-                  <div className="accordion-body">{faq.desc}</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {faqs.length > 0 ? (
+          <>
+            <h1 className="faq__heading">Frequently Asked Questions</h1>
+            <div
+              className="accordion accordion-flush"
+              id="accordionFlushExample"
+            >
+              {[...faqs].map((faq) => {
+                return (
+                  <div className="accordion-item" key={`faq_${faq.id}`}>
+                    <h2
+                      className="accordion-header"
+                      id={`flush-heading_${faq.id}`}
+                    >
+                      <button
+                        className="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#flush-collapse_${faq.id}`}
+                        aria-expanded="false"
+                        aria-controls={`flush-collapse_${faq.id}`}
+                      >
+                        {faq.title}
+                      </button>
+                    </h2>
+                    <div
+                      id={`flush-collapse_${faq.id}`}
+                      className="accordion-collapse collapse"
+                      aria-labelledby={`flush-heading_${faq.id}`}
+                      data-bs-parent="#accordionFlushExample"
+                    >
+                      <div
+                        className="accordion-body"
+                        dangerouslySetInnerHTML={{
+                          __html: faq.desc,
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          ""
+        )}
 
         <div className="faq__form__container">
           <form
