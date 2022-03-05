@@ -194,6 +194,9 @@ const Home = () => {
           ""
         )}
 
+        <div className="home__banner__label faq__form__label">
+          Ready to watch? Enter your email to create or restart your membership.
+        </div>
         <div className="faq__form__container">
           <form
             className="home__banner__form__group"

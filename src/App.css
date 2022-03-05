@@ -129,7 +129,7 @@ header.navbar {
 
 .info__banner {
   margin: auto;
-  padding: 2rem 4rem;
+  padding: 4rem 4rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,6 +177,8 @@ header.navbar {
   font-weight: bolder;
   letter-spacing: 1.2px;
   line-height: 1.7;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .faq__container .accordion {
@@ -226,6 +228,15 @@ header.navbar {
   letter-spacing: 0.9px;
   font-family: "Roboto", sans-serif !important;
   font-size: 14px;
+}
+
+.faq__form__label {
+  margin-top: 3rem;
+  margin-bottom: -0.8rem;
+  text-align: center;
+  color: #fff;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .faq__form__container {
@@ -593,7 +604,7 @@ header.navbar {
 /* ======== MEDIA QUERIES ======== */
 @media screen and (max-width: 991px) {
   .info__banner {
-    padding: 2rem;
+    padding: 3rem 2rem;
   }
   .info__banner__title {
     font-size: 1.7rem;
@@ -670,7 +681,7 @@ header.navbar {
     font-size: large;
   }
   .info__banner {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
   }
   .faq__container .accordion {
     width: 80%;
@@ -693,6 +704,9 @@ header.navbar {
   }
   .faq__form__container .home__banner__form__group {
     flex-direction: column;
+  }
+  .faq__form__label {
+    margin-bottom: 0rem;
   }
 }
 
