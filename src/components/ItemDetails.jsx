@@ -55,9 +55,9 @@ const ItemDetails = () => {
             <h1 className="itemdetails__title">
               {movie?.title || movie?.original_title}
             </h1>
-            <h3 className="itemdetails__rating">
+            <h5 className="itemdetails__rating">
               <span>{movie?.vote_average}</span> <i className="bx bxs-star"></i>
-            </h3>
+            </h5>
           </div>
 
           <div className="itemdetails__meta__info">
@@ -104,9 +104,9 @@ const ItemDetails = () => {
       </div>
 
       <div className="related__content__box">
-        <h2 className="itemdetails__title related__title">
+        <h4 className="itemdetails__title related__title">
           <span>Related Content</span>
-        </h2>
+        </h4>
         {relatedMoviesReq !== "" ? (
           <ItemsRow
             title="Related Movies"
