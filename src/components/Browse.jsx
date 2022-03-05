@@ -18,7 +18,7 @@ const Browse = () => {
           fetchURI={requests.fetchNetflixOriginals}
           isLarge
         />
-        {/* <ItemsRow title="Trending Now" fetchURI={requests.fetchTrending} />
+        <ItemsRow title="Trending Now" fetchURI={requests.fetchTrending} />
         <ItemsRow title="Top Rated" fetchURI={requests.fetchTopRated} />
         <ItemsRow title="TV Shows" fetchURI={requests.fetchTV} />
         <ItemsRow title="Action Movies" fetchURI={requests.fetchActionMovies} />
@@ -35,7 +35,7 @@ const Browse = () => {
         />
         <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
         <ItemsRow title="Western" fetchURI={requests.fetchWestern} />
-        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} /> */}
+        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} />
       </div>
     </>
   );

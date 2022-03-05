@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import axios from "../lib/axios";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
