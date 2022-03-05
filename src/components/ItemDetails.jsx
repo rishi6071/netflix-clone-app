@@ -35,7 +35,6 @@ const ItemDetails = () => {
 
   // Utility Methods
   const GetDuration = (t) => `${(t / 60).toFixed(0)}h ${t % 60}min`;
-  const IsAdultContent = (adult) => `${adult ? "16+" : "All"}`;
   const GetPosterPath = (path) => `${BASE_IMG_URI}${path}`;
   const GetReleaseYear = (date) => `${date ? date.split("-")[0] : ""}`;
 
@@ -64,7 +63,7 @@ const ItemDetails = () => {
           <div className="itemdetails__meta__info">
             <span>{GetReleaseYear(movie?.release_date)}</span>
             <span>{GetDuration(movie?.runtime)}</span>
-            <span>{IsAdultContent(movie?.adult)}</span>
+            <span>16+</span>
           </div>
 
           <div className="itemdetails__nav__container">

@@ -5,6 +5,7 @@ import "./App.css";
 // Custom Components
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
+import Browse from "./components/Browse";
 import ItemDetails from "./components/ItemDetails";
 
 const App = () => {
@@ -14,9 +15,10 @@ const App = () => {
         {/* Header */}
         <Navbar />
 
-        {/* Routing b/w Home and ItemDetails Component */}
+        {/* Routing b/w Browse and ItemDetails Component */}
         <Routes>
           <Route path="/" exact element={<Home />} />
+          <Route path="/browse" element={<Browse />} />
           <Route path="/item/:id" element={<ItemDetails />} />
         </Routes>
       </BrowserRouter>
