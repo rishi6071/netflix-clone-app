@@ -424,6 +424,12 @@ header.navbar {
 }
 
 /* ==== ItemDetails.jsx ==== */
+.not_found {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
 .itemdetails__container {
   width: 100%;
   background: #000;
@@ -718,6 +724,9 @@ header.navbar {
   }
   .faq__form__container .home__banner__form__group {
     flex-direction: column;
+  }
+  .faq__form__container .home__banner__form__group input {
+    text-align: center;
   }
   .faq__form__label {
     margin-bottom: 0rem;

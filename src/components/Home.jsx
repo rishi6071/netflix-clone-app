@@ -7,11 +7,11 @@ import axios from "axios";
 import { faq_request } from "../lib/request";
 
 // Icons & Media
-import HomeBanner from "../media/home_banner.png";
-import TVBanner from "../media/TV.png";
-import MobileBanner from "../media/mobile.jpg";
-import EverywhereBanner from "../media/Everywhere.png";
-import ChildrenBanner from "../media/children.png";
+import HomeBanner from "../media/Banners/home_banner.png";
+import TVBanner from "../media/Banners/TV.png";
+import MobileBanner from "../media/Banners/mobile.jpg";
+import EverywhereBanner from "../media/Banners/Everywhere.png";
+import ChildrenBanner from "../media/Banners/children.png";
 
 const Home = () => {
   const navigate = useNavigate();

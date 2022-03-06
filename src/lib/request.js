@@ -2,9 +2,9 @@ const API_KEY = process.env.REACT_APP_PUBLIC_KEY;
 const page_num = Math.floor(Math.random() * 10 + 1);
 
 const requests = {
-  fetchTrending: `/trending/all/week?api_key=${API_KEY}&language=en-US&page=${page_num}`,
   fetchNetflixOriginals: `/discover/tv?api_key=${API_KEY}&with_networks=213&page=${page_num}`,
-  fetchTopRated: `/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page_num}`,
+  fetchTrending: `/trending/all/week?api_key=${API_KEY}&region=IN&language=hi-IN&page=${page_num}`,
+  fetchTopRated: `/movie/top_rated?api_key=${API_KEY}&region=IN&language=hi-IN&page=${page_num}`,
   fetchActionMovies: `/discover/movie?api_key=${API_KEY}&with_genres=28&page=${page_num}`,
   fetchComedyMovies: `/discover/movie?api_key=${API_KEY}&with_genres=35&page=${page_num}`,
   fetchHorrorMovies: `/discover/movie?api_key=${API_KEY}&with_genres=27&page=${page_num}`,

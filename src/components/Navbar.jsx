@@ -11,7 +11,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const scrollFun = () => {
-      if (window.scrollY > 200) setShowBg(true);
+      if (window.scrollY > 150) setShowBg(true);
       else setShowBg(false);
     };
 
