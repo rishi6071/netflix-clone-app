@@ -3,6 +3,11 @@ import { useParams } from "react-router-dom";
 import "../App.css";
 import axios from "../lib/axios";
 
+// Movie Trailer
+import YouTube from "react-youtube";
+import movieTrailer from "movie-trailer";
+
+// Requests
 import { item_requests } from "../lib/request";
 import ItemsRow from "./ItemsRow";
 
@@ -12,6 +17,7 @@ const ItemDetails = () => {
   const { id } = useParams();
 
   const [movie, setMovie] = useState({});
+  const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
   const [relatedMoviesReq, setRelatedMoviesReq] = useState("");
 
@@ -24,7 +30,8 @@ const ItemDetails = () => {
         .get(requests.fetchDetails)
         .then((response) => {
           setMovie(response.data);
-          console.log(response.data);
+          setTrailerURL(response.data.name || response.data.title || "");
+          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -33,14 +40,32 @@ const ItemDetails = () => {
     fetchItemDetails();
   }, [id, API_KEY]);
 
-  const ShiftSection = (event) => {
-    setCurrentSection(event.target.id);
+  useEffect(() => {
+    if (Object.keys(movie).length === 0) return;
+    movieTrailer(movie?.name || movie?.title || "")
+      .then((url) => {
+        const urlParams = new URLSearchParams(new URL(url).search);
+        setTrailerURL(urlParams.get("v"));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [movie]);
+
+  const opts = {
+    width: "100%",
+    height: 330,
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
   };
 
   // Utility Methods
   const GetDuration = (t) => `${(t / 60).toFixed(0)}h ${t % 60}min`;
   const GetPosterPath = (path) => `${BASE_IMG_URI}${path}`;
   const GetReleaseYear = (date) => `${date ? date.split("-")[0] : ""}`;
+  const ShiftSection = (event) => setCurrentSection(event.target.id);
 
   return (
     <>
@@ -144,7 +169,9 @@ const ItemDetails = () => {
                   </p>
                 </section>
               ) : currentSection === "trailers" ? (
-                <div>Trailers</div>
+                <section>
+                  {trailerURL && <YouTube videoId={trailerURL} opts={opts} />}
+                </section>
               ) : (
                 <div>Details</div>
               )}

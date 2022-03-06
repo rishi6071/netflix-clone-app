@@ -141,7 +141,7 @@ header.navbar {
 
 .info__banner__img__box,
 .info__banner__content__box {
-  flex: 1;
+  flex: 2;
 }
 
 .info__banner__img__box img {
@@ -428,7 +428,7 @@ header.navbar {
   width: 100%;
   background: #000;
   margin: auto;
-  padding: 4.4rem 5% 1.5rem 5%;
+  padding: 3rem 5% 1.5rem 5%;
   display: flex;
   justify-content: center;
 }
@@ -436,6 +436,7 @@ header.navbar {
 .itemdetails__img__box {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex: 1;
 }
 
@@ -449,7 +450,7 @@ header.navbar {
 
 .itemdetails__content__box {
   flex: 2;
-  padding: 1rem 1rem 2rem 4rem;
+  padding: 1rem 1rem 2rem 2rem;
 }
 
 .itemdetails__title__rating__box {
@@ -487,7 +488,7 @@ header.navbar {
 
 .itemdetails__meta__info {
   color: rgba(255, 255, 255, 0.425);
-  margin-top: 0.8rem;
+  margin-top: 0.2rem;
   font-size: smaller;
   font-family: "Roboto", sans-serif;
 }
@@ -540,6 +541,7 @@ header.navbar {
 
 .itemdetails__nav__sections {
   margin-top: 1.5rem;
+  transition: all 0.5s;
 }
 
 .itemdetails__tagline {
