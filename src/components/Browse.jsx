@@ -28,12 +28,12 @@ const Browse = () => {
           fetchURI={requests.fetchRomanceMovies}
         />
         <ItemsRow title="Animation Movies" fetchURI={requests.fetchAnimation} />
-        <ItemsRow title="Horror Movies" fetchURI={requests.fetchHorrorMovies} />
+        {/* <ItemsRow title="Horror Movies" fetchURI={requests.fetchHorrorMovies} />
         <ItemsRow
           title="Documentories"
           fetchURI={requests.fetchDocumantaries}
         />
-        {/* <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
+        <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
         <ItemsRow title="Western" fetchURI={requests.fetchWestern} />
         <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} /> */}
       </div>
