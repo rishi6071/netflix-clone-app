@@ -76,7 +76,7 @@ const ItemDetails = () => {
 
   return (
     <>
-      {notFound ? (
+      {!notFound ? (
         <>
           <div className="itemdetails__container" id={movie?.id}>
             <div className="itemdetails__img__box">
