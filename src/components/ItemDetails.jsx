@@ -23,11 +23,13 @@ const ItemDetails = () => {
 
   const [notFound, setNotFound] = useState(false);
   const [movie, setMovie] = useState({});
+  const [showTrailer, setShowTrailer] = useState(false);
   const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
   const [relatedMoviesReq, setRelatedMoviesReq] = useState("");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const requests = item_requests(id, API_KEY);
     setRelatedMoviesReq(requests.fetchSimilarMovies);
 
@@ -49,6 +51,7 @@ const ItemDetails = () => {
 
   useEffect(() => {
     if (Object.keys(movie).length === 0) return;
+    setShowTrailer(false);
     movieTrailer(movie?.name || movie?.title || "")
       .then((url) => {
         const urlParams = new URLSearchParams(new URL(url).search);
@@ -57,11 +60,16 @@ const ItemDetails = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    // Show Trailer after 2 Seconds
+    setTimeout(() => {
+      setShowTrailer(true);
+    }, 2000);
   }, [movie]);
 
   const opts = {
     width: "100%",
-    height: 330,
+    height: 310,
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
@@ -73,6 +81,10 @@ const ItemDetails = () => {
   const GetPosterPath = (path) => `${BASE_IMG_URI}${path}`;
   const GetReleaseYear = (date) => `${date ? date.split("-")[0] : ""}`;
   const ShiftSection = (event) => setCurrentSection(event.target.id);
+  const GetDate = (dt) => {
+    const date = new Date(dt).toLocaleDateString();
+    return date.replace("/", "-").replace("/", "-");
+  };
 
   return (
     <>
@@ -142,16 +154,17 @@ const ItemDetails = () => {
                 <div className="itemdetails__nav__sections">
                   {currentSection === "overview" ? (
                     <section>
+                      {/* OVERVIEW SECTION */}
                       <p className="itemdetails__tagline">{movie?.tagline}</p>
                       <p className="itemdetails__desc">{movie?.overview}</p>
                       <p className="itemdetails__chip__box">
                         <span>Genre: </span>
                         {movie.genres ? (
                           <>
-                            {[...movie?.genres].map((genre) => {
+                            {[...movie?.genres].map((country) => {
                               return (
-                                <span key={genre.id} className="chip">
-                                  {genre.name}
+                                <span key={country.iso_3166_1} className="chip">
+                                  {country.name}
                                 </span>
                               );
                             })}
@@ -178,7 +191,7 @@ const ItemDetails = () => {
                       </p>
                       <p className="itemdetails__chip__box">
                         <span>Popularity: </span>
-                        <span className="popularity__span">
+                        <span className="chip__span text-white">
                           <i className="bx bxs-star"></i> {movie?.vote_average}{" "}
                           ({movie?.vote_count})
                         </span>
@@ -186,12 +199,86 @@ const ItemDetails = () => {
                     </section>
                   ) : currentSection === "trailers" ? (
                     <section>
-                      {trailerURL && (
+                      {/* TRAILERS & MORE SECTION */}
+                      {showTrailer ? (
                         <YouTube videoId={trailerURL} opts={opts} />
+                      ) : (
+                        <div className="section__loading">
+                          <div className="spinner-grow" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                          <div className="spinner-grow" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        </div>
                       )}
                     </section>
                   ) : (
-                    <div>Details</div>
+                    <section>
+                      {/* DETAILS SECTION */}
+                      <p className="itemdetails__chip__box">
+                        <span>Status: </span>
+                        <span className="chip__span">{movie?.status}</span>
+                      </p>
+                      <p className="itemdetails__chip__box">
+                        <span>Release Date: </span>
+                        <span className="chip__span">
+                          {GetDate(movie?.release_date)}
+                        </span>
+                      </p>
+                      <p className="itemdetails__chip__box">
+                        <span>Languages: </span>
+                        {movie.spoken_languages ? (
+                          <>
+                            {[...movie?.spoken_languages].map((lang) => {
+                              return (
+                                <span key={lang.iso_639_1} className="chip">
+                                  {lang.english_name}
+                                </span>
+                              );
+                            })}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </p>
+                      <p className="itemdetails__chip__box">
+                        <span>Production Country: </span>
+                        {movie.production_countries ? (
+                          <>
+                            {[...movie?.production_countries].map((genre) => {
+                              return (
+                                <span key={genre.id} className="chip">
+                                  {genre.name}
+                                </span>
+                              );
+                            })}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </p>
+                      <p className="itemdetails__chip__box">
+                        <span>Production Companies: </span>
+                        {movie.production_companies ? (
+                          <>
+                            {[...movie?.production_companies].map((company) => {
+                              return (
+                                <span key={company.id} className="chip">
+                                  {company.name}
+                                </span>
+                              );
+                            })}
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </p>
+                      <p className="itemdetails__chip__box">
+                        <span>IMDB Id: </span>
+                        <span className="chip__span">{movie?.imdb_id}</span>
+                      </p>
+                    </section>
                   )}
                 </div>
               </div>
@@ -200,7 +287,7 @@ const ItemDetails = () => {
 
           <div className="related__content__box">
             <h4 className="itemdetails__title related__title">
-              <span>Related Content</span>
+              <span>Recommended For You</span>
             </h4>
             {relatedMoviesReq !== "" ? (
               <ItemsRow

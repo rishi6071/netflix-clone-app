@@ -14,7 +14,7 @@ const requests = {
   fetchSciFi: `/discover/movie?api_key=${API_KEY}&with_genres=878&page=${page_num}`,
   fetchWestern: `/discover/movie?api_key=${API_KEY}&with_genres=37&page=${page_num}`,
   fetchAnimation: `/discover/movie?api_key=${API_KEY}&with_genres=16&page=${page_num}`,
-  fetchTV: `/discover/movie?api_key=${API_KEY}&with_genres=10770&page=${page_num}`,
+  fetchTV: `/discover/tv?api_key=${API_KEY}&page=${page_num}`,
 };
 
 const item_requests = (id, API_KEY) => {
@@ -22,7 +22,7 @@ const item_requests = (id, API_KEY) => {
     fetchDetails: `/movie/${id}?api_key=${API_KEY}`,
     fetchImages: `/movie/${id}/images?api_key=${API_KEY}&language=en-US`,
     fetchVideos: `/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
-    fetchSimilarMovies: `/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`,
+    fetchSimilarMovies: `/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`,
   };
 };
 

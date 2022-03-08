@@ -5,17 +5,15 @@
 }
 
 /* ==== Navbar.jsx ==== */
-header.navbar {
-  position: fixed;
-  width: 100%;
+.navbar {
+  position: fixed !important;
+  width: 100vw;
   top: 0;
   z-index: 5;
-  padding-top: 16px;
-  padding-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   transition: all 0.35s;
+  background: transparent;
+  padding-top: 8px !important;
+  padding-bottom: 10px !important;
 }
 
 .showBg {
@@ -24,17 +22,51 @@ header.navbar {
 
 .brand__logo img {
   object-fit: contain;
-  width: 100px;
+  width: 85px;
   transform: scale(1.09);
-  margin-left: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .avatar__logo img {
   object-fit: contain;
   width: 35px;
   transform: scale(0.8);
-  margin-right: 2rem;
   border-radius: 3px;
+  margin-left: 1rem;
+}
+
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.65) !important;
+  letter-spacing: 0.8px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:active {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar input {
+  background: transparent;
+  border-radius: 1px;
+  width: 250px;
+  color: rgba(255, 255, 255, 0.842) !important;
+  border-color: rgba(255, 255, 255, 0.503) !important;
+}
+
+.navbar input::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 1px;
+}
+
+.navbar input:focus {
+  box-shadow: none !important;
+  background: transparent;
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.753) !important;
 }
 
 /* ==== Home.jsx ==== */
@@ -456,7 +488,7 @@ header.navbar {
 
 .itemdetails__content__box {
   flex: 2;
-  padding: 1rem 1rem 2rem 2rem;
+  padding: 1rem 1rem 0.5rem 2rem;
 }
 
 .itemdetails__title__rating__box {
@@ -523,6 +555,10 @@ header.navbar {
   margin-top: 1.6rem;
 }
 
+.itemdetails__nav__sections section {
+  height: 320px;
+}
+
 .itemdetails__nav__tabs button {
   flex: 1;
   padding-top: 8px;
@@ -584,6 +620,14 @@ header.navbar {
   margin-right: 10px;
   color: rgba(255, 255, 255, 0.45);
   margin-top: -2px;
+  line-height: 2.5;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.itemdetails__chip__box span.chip:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .itemdetails__chip__box span:nth-child(1) {
@@ -592,13 +636,26 @@ header.navbar {
   font-size: small;
 }
 
-.popularity__span {
-  color: rgba(255, 255, 255, 0.842);
+.itemdetails__chip__box .chip__span {
+  color: rgba(255, 255, 255, 0.642);
+  font-size: small;
 }
 
 .popularity__span i {
   color: #ffd700;
   transform: translateY(1.5px);
+}
+
+.section__loading {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section__loading .spinner-grow {
+  color: rgba(255, 0, 0, 0.74);
+  margin-right: 10px;
 }
 
 .related__content__box {
@@ -631,6 +688,9 @@ header.navbar {
   }
   .info__banner__desc {
     font-size: large;
+  }
+  .navbar .nav-link {
+    transform: translateY(5px);
   }
 }
 
