@@ -28,7 +28,7 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
     <div className="items__row__box">
       {!noTitle ? <h2 className="item__row__header">{title}</h2> : ""}
 
-      <div className="items__box">
+      <div className="container items__box">
         {[...movies].map((movie) => {
           return (
             <img

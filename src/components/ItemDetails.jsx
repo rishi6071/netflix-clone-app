@@ -17,7 +17,6 @@ import NotFound from "../media/NotFound/Not_Found.png";
 import NotFoundMobile from "../media/NotFound/Not_Found_Mobile.png";
 
 const ItemDetails = () => {
-  const API_KEY = process.env.REACT_APP_PUBLIC_KEY;
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
   const { id } = useParams();
 
@@ -30,12 +29,12 @@ const ItemDetails = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const requests = item_requests(id, API_KEY);
-    setRelatedMoviesReq(requests.fetchSimilarMovies);
+    const { fetchDetails, fetchSimilarMovies } = item_requests(id);
+    setRelatedMoviesReq(fetchSimilarMovies);
 
     const fetchItemDetails = async () => {
       await axios
-        .get(requests.fetchDetails)
+        .get(fetchDetails)
         .then((response) => {
           setMovie(response.data);
           setTrailerURL(response.data.name || response.data.title || "");
@@ -47,7 +46,7 @@ const ItemDetails = () => {
         });
     };
     fetchItemDetails();
-  }, [id, API_KEY]);
+  }, [id]);
 
   useEffect(() => {
     if (Object.keys(movie).length === 0) return;

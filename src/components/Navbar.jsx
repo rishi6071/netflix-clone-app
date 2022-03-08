@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../App.css";
 
 // Media
@@ -8,11 +8,20 @@ import Avatar from "../media/avatar.png";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [showBg, setShowBg] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const scrollFun = () => {
-      if (window.scrollY > 100) setShowBg(true);
+      let coord = 0,
+        path = location.pathname;
+      if (path === "/") coord = 300;
+      else if (path.startsWith("/browse")) coord = 200;
+      else coord = 5;
+
+      if (window.scrollY > coord) setShowBg(true);
       else setShowBg(false);
     };
 
@@ -20,7 +29,13 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", scrollFun);
     };
-  }, []);
+  }, [location]);
+
+  const SubmitSearch = (event) => {
+    event.preventDefault();
+    setQuery("");
+    navigate(`/search/${query}`);
+  };
 
   return (
     <nav
@@ -52,7 +67,11 @@ const Navbar = () => {
                 <li className="nav-item ms-md-4 ms-2">
                   <NavLink
                     to="/browse"
-                    className="nav-link"
+                    className={`nav-link ${
+                      location.pathname.startsWith("/browse")
+                        ? "active__navlink"
+                        : ""
+                    }`}
                     aria-current="page"
                   >
                     Browse
@@ -68,11 +87,13 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               </ul>
-              <form className="d-flex">
+              <form className="d-flex" onSubmit={SubmitSearch}>
                 <input
                   className="form-control me-2"
                   type="search"
-                  placeholder="Search Movies..."
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search..."
                   aria-label="Search"
                 />
               </form>

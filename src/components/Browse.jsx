@@ -9,34 +9,43 @@ import ItemsRow from "./ItemsRow";
 import requests from "../lib/request";
 
 const Browse = () => {
+  const randomPageNo = Math.floor(Math.random() * 10 + 1);
+  const {
+    fetchNetflixOriginals,
+    fetchTrending,
+    fetchTopRated,
+    fetchActionMovies,
+    fetchComedyMovies,
+    fetchRomanceMovies,
+    fetchAnimation,
+    fetchHorrorMovies,
+  } = requests(randomPageNo);
+
   return (
     <>
-      <Banner fetchURI={requests.fetchNetflixOriginals} />
+      <Banner fetchURI={fetchNetflixOriginals} />
       <div className="all_rows__container">
         <ItemsRow
           title="NETFLIX ORIGINALS"
-          fetchURI={requests.fetchNetflixOriginals}
+          fetchURI={fetchNetflixOriginals}
           isLarge
         />
-        <ItemsRow title="Trending Now" fetchURI={requests.fetchTrending} />
-        <ItemsRow title="Top Rated" fetchURI={requests.fetchTopRated} />
-        <ItemsRow title="TV Shows" fetchURI={requests.fetchTV} />
-        <ItemsRow title="Action Movies" fetchURI={requests.fetchActionMovies} />
-        <ItemsRow title="Comedies" fetchURI={requests.fetchComedyMovies} />
-        <ItemsRow
-          title="Romantic Movies"
-          fetchURI={requests.fetchRomanceMovies}
-        />
-        <ItemsRow title="Animation Movies" fetchURI={requests.fetchAnimation} />
-        <ItemsRow title="Horror Movies" fetchURI={requests.fetchHorrorMovies} />
+        <ItemsRow title="Trending Now" fetchURI={fetchTrending} />
+        <ItemsRow title="Top Rated" fetchURI={fetchTopRated} />
+        <ItemsRow title="Action Movies" fetchURI={fetchActionMovies} />
+        <ItemsRow title="Comedies" fetchURI={fetchComedyMovies} />
+        <ItemsRow title="Romantic Movies" fetchURI={fetchRomanceMovies} />
+        <ItemsRow title="Animation Movies" fetchURI={fetchAnimation} />
+        <ItemsRow title="Horror Movies" fetchURI={fetchHorrorMovies} />
         {/* 
         <ItemsRow
           title="Documentories"
-          fetchURI={requests.fetchDocumantaries}
+          fetchURI={fetchDocumantaries}
         />
-        <ItemsRow title="Mystery" fetchURI={requests.fetchMystery} />
-        <ItemsRow title="Western" fetchURI={requests.fetchWestern} />
-        <ItemsRow title="Sci-Fi" fetchURI={requests.fetchSciFi} /> */}
+        <ItemsRow title="TV Shows" fetchURI={fetchTV} />
+        <ItemsRow title="Mystery" fetchURI={fetchMystery} />
+        <ItemsRow title="Western" fetchURI={fetchWestern} />
+        <ItemsRow title="Sci-Fi" fetchURI={fetchSciFi} /> */}
       </div>
     </>
   );
