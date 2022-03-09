@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
+import axios from "../lib/axios";
+import requests from "../lib/request";
+
 import ItemsGrid from "../components/ItemsGrid";
 
-import axios from "../lib/axios";
-import { search_requests } from "../lib/request";
-
-const Search = () => {
+const Collection = () => {
   const navigate = useNavigate();
-  const { query } = useParams();
+  const { collection } = useParams();
 
   const [searchItems, setSearchItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    const { fetchSearch } = search_requests(query, currentPage);
+    const fetch_req = requests(currentPage)[`${collection}`];
 
     const fetchData = async () => {
       await axios
-        .get(fetchSearch)
+        .get(fetch_req)
         .then((response) => {
           return response.data;
         })
@@ -33,12 +33,7 @@ const Search = () => {
         });
     };
     fetchData();
-  }, [query, currentPage]);
-
-  const NavigateToItem = (event) => {
-    const id = event.target.id;
-    navigate(`/item/${id ? id : "null"}`);
-  };
+  }, [collection, currentPage]);
 
   const HandleLoadMore = () => {
     setCurrentPage((prevState) => {
@@ -46,13 +41,25 @@ const Search = () => {
     });
   };
 
+  const NavigateToItem = (event) => {
+    const id = event.target.id;
+    navigate(`/item/${id ? id : "null"}`);
+  };
+
+  const GetCollectionHead = (coll_name) => {
+    const str = coll_name.replace("fetch", "");
+    const result = str.split(/(?=[A-Z])/);
+    return result.join(" ");
+  };
+
   return (
     <div className="search__container">
       <p className="search__query">
-        <span>Search Results for:</span> <span>{query}</span>
+        <span>Collection for:</span>{" "}
+        <span>{GetCollectionHead(collection)}</span>
       </p>
 
-      {/* Search Items */}
+      {/* Collection Items */}
       <ItemsGrid searchItems={searchItems} NavigateToItem={NavigateToItem} />
 
       {/* Pagination LOAD MORE */}
@@ -69,4 +76,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Collection;

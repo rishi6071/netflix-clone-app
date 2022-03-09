@@ -6,13 +6,13 @@ const ItemsGrid = ({ searchItems, NavigateToItem }) => {
 
   return (
     <div className="container-fluid search__items__box">
-      <div className="row gx-1">
-        {[...searchItems].map((item) => {
+      <div className="row gx-xl-1 gx-3">
+        {[...searchItems].map((item, idx) => {
           if (item.poster_path) {
             return (
               <div
                 className="col-lg-2 col-md-3 col-sm-4 col-6 mb-4"
-                key={item.id}
+                key={`${item.id}_${item.title}_${idx}`}
               >
                 <div
                   className="card search__item"

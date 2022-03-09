@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../App.css";
 import axios from "../lib/axios";
-import { isMobile } from "react-device-detect";
 
 // Movie Trailer
 import YouTube from "react-youtube";
@@ -14,7 +13,6 @@ import ItemsRow from "../components/ItemsRow";
 
 // Not Found Media
 import NotFound from "../media/NotFound/Not_Found.png";
-import NotFoundMobile from "../media/NotFound/Not_Found_Mobile.png";
 
 import Loader from "../components/Loader";
 
@@ -30,6 +28,11 @@ const ItemDetails = () => {
   const [relatedMoviesReq, setRelatedMoviesReq] = useState("");
 
   useEffect(() => {
+    if (id === "null") {
+      setNotFound(true);
+      return;
+    }
+
     window.scrollTo(0, 0);
     const { fetchDetails, fetchSimilarMovies } = item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
@@ -40,7 +43,7 @@ const ItemDetails = () => {
         .then((response) => {
           setMovie(response.data);
           setTrailerURL(response.data.name || response.data.title || "");
-          // console.log(response.data);
+          return response;
         })
         .catch((error) => {
           console.log(error);
@@ -162,10 +165,10 @@ const ItemDetails = () => {
                         <span>Genre: </span>
                         {movie.genres ? (
                           <>
-                            {[...movie?.genres].map((country) => {
+                            {[...movie?.genres].map((genre) => {
                               return (
-                                <span key={country.iso_3166_1} className="chip">
-                                  {country.name}
+                                <span key={genre.iso_3166_1} className="chip">
+                                  {genre.name}
                                 </span>
                               );
                             })}
@@ -240,10 +243,10 @@ const ItemDetails = () => {
                         <span>Production Country: </span>
                         {movie.production_countries ? (
                           <>
-                            {[...movie?.production_countries].map((genre) => {
+                            {[...movie?.production_countries].map((country) => {
                               return (
-                                <span key={genre.id} className="chip">
-                                  {genre.name}
+                                <span key={country.id} className="chip">
+                                  {country.name}
                                 </span>
                               );
                             })}
@@ -295,14 +298,10 @@ const ItemDetails = () => {
             )}
           </div>
         </>
-      ) : !isMobile ? (
-        <img src={NotFound} className="not_found" alt="Not-Found" />
       ) : (
-        <img
-          src={NotFoundMobile}
-          className="not_found"
-          alt="Not-Found-Mobile"
-        />
+        <div className="not__found__box">
+          <img src={NotFound} className="not__found" alt="Not-Found" />
+        </div>
       )}
     </>
   );

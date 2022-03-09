@@ -31,7 +31,11 @@ const Browse = () => {
           fetchURI={fetchNetflixOriginals}
           isLarge
         />
-        <ItemsRow title="Bollywood Movies" fetchURI={fetchIndianMovies} />
+        <ItemsRow
+          title="Bollywood Movies"
+          fetchURI={fetchIndianMovies}
+          isLarge
+        />
         <ItemsRow title="Trending Now" fetchURI={fetchTrending} />
         <ItemsRow title="Top Rated" fetchURI={fetchTopRated} />
         <ItemsRow title="Action Movies" fetchURI={fetchActionMovies} />

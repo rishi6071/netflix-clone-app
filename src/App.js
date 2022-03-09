@@ -8,6 +8,7 @@ import Home from "./containers/Home";
 import Browse from "./containers/Browse";
 import ItemDetails from "./containers/ItemDetails";
 import Search from "./containers/Search";
+import Collection from "./containers/Collection";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/browse" element={<Browse />} />
           <Route path="/item/:id" element={<ItemDetails />} />
           <Route path="/search/:query" element={<Search />} />
+          <Route path="/collection/:collection" element={<Collection />} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

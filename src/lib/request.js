@@ -41,5 +41,17 @@ const search_requests = (query, page_num) => {
 // API using to render static FAQs on Home Page
 const faq_request = "https://api.npoint.io/85f2406f3ff60e1bab50";
 
+// Get-Key-By-Value in JS Object
+function getKeyByValue(object, value) {
+  // removing the page parameter from api
+  let val = value.split("&");
+  val.pop();
+  val = val.join("&");
+
+  return Object.keys(object).find(
+    (key) => object[key].startsWith(val) === true
+  );
+}
+
 export default requests;
-export { item_requests, search_requests, faq_request };
+export { item_requests, search_requests, faq_request, getKeyByValue };
