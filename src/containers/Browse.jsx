@@ -2,8 +2,8 @@ import React from "react";
 import "../App.css";
 
 // Custom Components
-import Banner from "./Banner";
-import ItemsRow from "./ItemsRow";
+import Banner from "../components/Banner";
+import ItemsRow from "../components/ItemsRow";
 
 // requests
 import requests from "../lib/request";
@@ -12,6 +12,7 @@ const Browse = () => {
   const randomPageNo = Math.floor(Math.random() * 10 + 1);
   const {
     fetchNetflixOriginals,
+    fetchIndianMovies,
     fetchTrending,
     fetchTopRated,
     fetchActionMovies,
@@ -30,6 +31,7 @@ const Browse = () => {
           fetchURI={fetchNetflixOriginals}
           isLarge
         />
+        <ItemsRow title="Bollywood Movies" fetchURI={fetchIndianMovies} />
         <ItemsRow title="Trending Now" fetchURI={fetchTrending} />
         <ItemsRow title="Top Rated" fetchURI={fetchTopRated} />
         <ItemsRow title="Action Movies" fetchURI={fetchActionMovies} />

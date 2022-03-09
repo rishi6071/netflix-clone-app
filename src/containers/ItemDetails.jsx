@@ -10,11 +10,13 @@ import movieTrailer from "movie-trailer";
 
 // Requests
 import { item_requests } from "../lib/request";
-import ItemsRow from "./ItemsRow";
+import ItemsRow from "../components/ItemsRow";
 
 // Not Found Media
 import NotFound from "../media/NotFound/Not_Found.png";
 import NotFoundMobile from "../media/NotFound/Not_Found_Mobile.png";
+
+import Loader from "../components/Loader";
 
 const ItemDetails = () => {
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
@@ -202,14 +204,7 @@ const ItemDetails = () => {
                       {showTrailer ? (
                         <YouTube videoId={trailerURL} opts={opts} />
                       ) : (
-                        <div className="section__loading">
-                          <div className="spinner-grow" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                          </div>
-                          <div className="spinner-grow" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                          </div>
-                        </div>
+                        <Loader />
                       )}
                     </section>
                   ) : (

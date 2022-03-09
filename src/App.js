@@ -4,16 +4,15 @@ import "./App.css";
 
 // Custom Components
 import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import Browse from "./components/Browse";
-import ItemDetails from "./components/ItemDetails";
-import Search from "./components/Search";
+import Home from "./containers/Home";
+import Browse from "./containers/Browse";
+import ItemDetails from "./containers/ItemDetails";
+import Search from "./containers/Search";
 
 const App = () => {
   return (
     <React.Fragment>
       <BrowserRouter>
-        {/* Header */}
         <Navbar />
 
         {/* Routing b/w Browse and ItemDetails Component */}

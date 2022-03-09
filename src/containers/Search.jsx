@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
+import ItemsGrid from "../components/ItemsGrid";
 
 import axios from "../lib/axios";
 import { search_requests } from "../lib/request";
 
 const Search = () => {
-  const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
   const navigate = useNavigate();
   const { query } = useParams();
 
@@ -53,38 +53,7 @@ const Search = () => {
       </p>
 
       {/* Search Items */}
-      <div className="container-fluid search__items__box">
-        <div className="row gx-1">
-          {[...searchItems].map((item) => {
-            if (item.poster_path) {
-              return (
-                <div
-                  className="col-lg-2 col-md-3 col-sm-4 col-6 mb-4"
-                  key={item.id}
-                >
-                  <div
-                    className="card search__item"
-                    id={item.id}
-                    onClick={NavigateToItem}
-                  >
-                    <img
-                      src={`${BASE_IMG_URI}${item.poster_path}`}
-                      className="card-img-top"
-                      alt={item.original_name}
-                    />
-                    <div className="card-body">
-                      <p className="card-text">
-                        {item?.title || item?.name || item?.original_name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-            return "";
-          })}
-        </div>
-      </div>
+      <ItemsGrid searchItems={searchItems} NavigateToItem={NavigateToItem} />
 
       {/* Pagination LOAD MORE */}
       {currentPage < totalPages ? (

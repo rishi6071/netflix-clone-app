@@ -93,7 +93,7 @@ const Navbar = () => {
                   type="search"
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search..."
+                  placeholder="Search Movies..."
                   aria-label="Search"
                 />
               </form>

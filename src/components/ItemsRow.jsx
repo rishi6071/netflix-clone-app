@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "../lib/axios";
 
 const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
@@ -26,9 +26,15 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
 
   return (
     <div className="items__row__box">
-      {!noTitle ? <h2 className="item__row__header">{title}</h2> : ""}
+      {!noTitle ? (
+        <Link to={"/browse"} className="item__row__header">
+          {title}
+        </Link>
+      ) : (
+        ""
+      )}
 
-      <div className="container items__box">
+      <div className="container-fluid items__box">
         {[...movies].map((movie) => {
           return (
             <img
