@@ -10,6 +10,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [showSearch, setShowSearch] = useState(false);
   const [showBg, setShowBg] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -23,6 +24,7 @@ const Navbar = () => {
 
       if (window.scrollY > coord) setShowBg(true);
       else setShowBg(false);
+      setShowSearch(false);
     };
 
     window.addEventListener("scroll", scrollFun);
@@ -35,6 +37,17 @@ const Navbar = () => {
     event.preventDefault();
     setQuery("");
     navigate(`/search/${query}`);
+    if (event.target.name === "toggle__search__form") setShowSearch(false);
+  };
+
+  const ToggleSearch = () => {
+    if (showSearch) {
+      setShowSearch(false);
+      setShowBg(false);
+    } else {
+      setShowSearch(true);
+      setShowBg(true);
+    }
   };
 
   return (
@@ -50,17 +63,26 @@ const Navbar = () => {
             <img src={Netflix} alt="Netflix-Brand" />
           </NavLink>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            aria-expanded="false"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample"
-            aria-label="Toggle navigation"
-          >
-            <i className="bx bx-menu-alt-right"></i>
-          </button>
+          <div className="navbar__button__box">
+            <button
+              type="button"
+              className="search__button"
+              onClick={ToggleSearch}
+            >
+              <i className="bx bx-search-alt"></i>
+            </button>
+            <button
+              className="navbar-toggler"
+              type="button"
+              aria-expanded="false"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasExample"
+              aria-controls="offcanvasExample"
+              aria-label="Toggle navigation"
+            >
+              <i className="bx bx-menu-alt-right"></i>
+            </button>
+          </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {location.pathname !== "/" ? (
@@ -116,6 +138,28 @@ const Navbar = () => {
             </ul>
           </div>
         </div>
+
+        {showSearch ? (
+          <div className="container-fluid mt-3 pb-2 d-flex justify-content-center">
+            <form
+              className="d-flex justify-content-center"
+              onSubmit={SubmitSearch}
+              name="toggle__search__form"
+            >
+              <input
+                className="form-control me-2"
+                style={{ width: "84vw" }}
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search Movies..."
+                aria-label="Search"
+              />
+            </form>
+          </div>
+        ) : (
+          ""
+        )}
       </nav>
 
       {/* Sidebar */}
@@ -196,7 +240,7 @@ const Navbar = () => {
                 And Get Started with the World's No. 1 Leading OTT Platform
               </p>
               <button
-              type="button"
+                type="button"
                 className="btn instruction__button"
                 data-bs-dismiss="offcanvas"
               >

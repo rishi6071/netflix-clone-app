@@ -31,7 +31,8 @@ const ItemDetails = () => {
     }
 
     window.scrollTo(0, 0);
-    const { fetchDetails, fetchSimilarMovies } = item_requests(id);
+    const { fetchDetails, fetchSimilarMovies } =
+      item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
 
     const fetchItemDetails = async () => {
