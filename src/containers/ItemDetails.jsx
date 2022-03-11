@@ -10,10 +10,7 @@ import movieTrailer from "movie-trailer";
 // Requests
 import { item_requests } from "../lib/request";
 import ItemsRow from "../components/ItemsRow";
-
-// Not Found Media
-import NotFound from "../media/NotFound/Not_Found.png";
-
+import NotFound from "../components/NotFound";
 import Loader from "../components/Loader";
 
 const ItemDetails = () => {
@@ -299,9 +296,7 @@ const ItemDetails = () => {
           </div>
         </>
       ) : (
-        <div className="not__found__box">
-          <img src={NotFound} className="not__found" alt="Not-Found" />
-        </div>
+        <NotFound />
       )}
     </>
   );

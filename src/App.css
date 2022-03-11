@@ -127,13 +127,42 @@
 }
 
 .sidebar__menu .nav-link {
-  font-size: large;
+  font-size: medium;
   font-weight: 400;
 }
 
 .sidebar__menu input {
-  width: 90%;
-  margin: 0.5rem 0rem;
+  width: 85%;
+  margin: 1.2rem 0.5rem 0.5rem 0rem;
+}
+
+.instruction__box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 75vh;
+  padding: 2rem 1rem;
+}
+
+.get__started__instruction {
+  color: #fff;
+  line-height: 2.5;
+  font-size: 1.25rem;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.instruction__button {
+  display: block;
+  margin: 1rem auto;
+  border: 1px solid #ffffffe6 !important;
+  color: #ffffffe6 !important;
+  background: transparent;
+  font-size: large !important;
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 25px !important;
 }
 
 /* ======== Home.jsx ======== */

@@ -139,53 +139,71 @@ const Navbar = () => {
           </button>
         </div>
         <div className="offcanvas-body">
-          <form
-            className="d-flex justify-content-center"
-            onSubmit={SubmitSearch}
-          >
-            <input
-              className="form-control me-2"
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search Movies..."
-              aria-label="Search"
-            />
-          </form>
-          <ul className="list-group">
-            <li className="list-group-item"></li>
-            <li className="list-group-item">
-              <NavLink
-                to="/browse"
-                className={`nav-link ${
-                  location.pathname.startsWith("/browse")
-                    ? "active__navlink"
-                    : ""
-                }`}
+          {location.pathname !== "/" ? (
+            <>
+              <form
+                className="d-flex justify-content-center"
+                onSubmit={SubmitSearch}
+              >
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search Movies..."
+                  aria-label="Search"
+                />
+              </form>
+              <ul className="list-group">
+                <li className="list-group-item"></li>
+                <li className="list-group-item">
+                  <NavLink
+                    to="/browse"
+                    className={`nav-link ${
+                      location.pathname.startsWith("/browse")
+                        ? "active__navlink"
+                        : ""
+                    }`}
+                    data-bs-dismiss="offcanvas"
+                  >
+                    Browse
+                  </NavLink>
+                </li>
+                <li className="list-group-item">
+                  <NavLink
+                    to="/"
+                    className={`nav-link`}
+                    data-bs-dismiss="offcanvas"
+                  >
+                    My List
+                  </NavLink>
+                </li>
+                <li className="list-group-item mt-2">
+                  <NavLink
+                    to="/"
+                    className="navbar-brand avatar__logo"
+                    data-bs-dismiss="offcanvas"
+                  >
+                    <img src={Avatar} alt="Netflix-Brand" />
+                  </NavLink>
+                </li>
+              </ul>
+            </>
+          ) : (
+            <div className="instruction__box">
+              <p className="get__started__instruction">
+                Enter your Email Address... <br />
+                And Get Started with the World's No. 1 Leading OTT Platform
+              </p>
+              <button
+              type="button"
+                className="btn instruction__button"
                 data-bs-dismiss="offcanvas"
               >
-                Browse
-              </NavLink>
-            </li>
-            <li className="list-group-item">
-              <NavLink
-                to="/"
-                className={`nav-link`}
-                data-bs-dismiss="offcanvas"
-              >
-                My List
-              </NavLink>
-            </li>
-            <li className="list-group-item mt-2">
-              <NavLink
-                to="/"
-                className="navbar-brand avatar__logo"
-                data-bs-dismiss="offcanvas"
-              >
-                <img src={Avatar} alt="Netflix-Brand" />
-              </NavLink>
-            </li>
-          </ul>
+                Home
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>
