@@ -19,6 +19,7 @@ const ItemDetails = () => {
 
   const [notFound, setNotFound] = useState(false);
   const [movie, setMovie] = useState({});
+  const [watchProviders, setWatchProviders] = useState([]);
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
@@ -31,7 +32,7 @@ const ItemDetails = () => {
     }
 
     window.scrollTo(0, 0);
-    const { fetchDetails, fetchSimilarMovies } =
+    const { fetchDetails, fetchSimilarMovies, fetchWatchProviders } =
       item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
 
@@ -49,6 +50,19 @@ const ItemDetails = () => {
         });
     };
     fetchItemDetails();
+
+    const fetchProviders = async () => {
+      await axios
+        .get(fetchWatchProviders)
+        .then((response) => {
+          setWatchProviders(response.data.results.IN);
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchProviders();
   }, [id]);
 
   useEffect(() => {
@@ -86,6 +100,13 @@ const ItemDetails = () => {
   const GetDate = (dt) => {
     const date = new Date(dt).toLocaleDateString();
     return date.replace("/", "-").replace("/", "-");
+  };
+  const GetChipString = (str) => {
+    if (str.length > 20) {
+      str = str.substring(0, 20);
+      str += "..";
+    }
+    return str;
   };
 
   return (
@@ -211,68 +232,95 @@ const ItemDetails = () => {
                   ) : (
                     <section>
                       {/* DETAILS SECTION */}
-                      <p className="itemdetails__chip__box">
-                        <span>Status: </span>
-                        <span className="chip__span">{movie?.status}</span>
-                      </p>
-                      <p className="itemdetails__chip__box">
-                        <span>Release Date: </span>
-                        <span className="chip__span">
-                          {GetDate(movie?.release_date)}
-                        </span>
-                      </p>
-                      <p className="itemdetails__chip__box">
-                        <span>Languages: </span>
-                        {movie.spoken_languages ? (
-                          <>
-                            {[...movie?.spoken_languages].map((lang) => {
-                              return (
-                                <span key={lang.iso_639_1} className="chip">
-                                  {lang.english_name}
-                                </span>
-                              );
-                            })}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </p>
-                      <p className="itemdetails__chip__box">
-                        <span>Production Country: </span>
-                        {movie.production_countries ? (
-                          <>
-                            {[...movie?.production_countries].map((country) => {
-                              return (
-                                <span key={country.id} className="chip">
-                                  {country.name}
-                                </span>
-                              );
-                            })}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </p>
-                      <p className="itemdetails__chip__box">
-                        <span>Production Companies: </span>
-                        {movie.production_companies ? (
-                          <>
-                            {[...movie?.production_companies].map((company) => {
-                              return (
-                                <span key={company.id} className="chip">
-                                  {company.name}
-                                </span>
-                              );
-                            })}
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </p>
-                      <p className="itemdetails__chip__box">
-                        <span>IMDB Id: </span>
-                        <span className="chip__span">{movie?.imdb_id}</span>
-                      </p>
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-xl-9">
+                            <p className="itemdetails__chip__box">
+                              <span>Status: </span>
+                              <span className="chip__span">
+                                {movie?.status} ({GetDate(movie?.release_date)})
+                              </span>
+                            </p>
+                            <p className="itemdetails__chip__box">
+                              <span>Languages: </span>
+                              {movie.spoken_languages ? (
+                                <>
+                                  {[...movie?.spoken_languages].map((lang) => {
+                                    return (
+                                      <span
+                                        key={lang.iso_639_1}
+                                        className="chip"
+                                      >
+                                        {lang.english_name}
+                                      </span>
+                                    );
+                                  })}
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                            <p className="itemdetails__chip__box">
+                              <span>Production Country: </span>
+                              {movie.production_countries ? (
+                                <>
+                                  {[...movie?.production_countries].map(
+                                    (country) => {
+                                      return (
+                                        <span
+                                          key={country.id}
+                                          className="chip"
+                                          title={country.name}
+                                        >
+                                          {GetChipString(country.name)}
+                                        </span>
+                                      );
+                                    }
+                                  )}
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                            <p className="itemdetails__chip__box">
+                              <span>Production By: </span>
+                              {movie.production_companies ? (
+                                <>
+                                  {[...movie?.production_companies].map(
+                                    (company) => {
+                                      return (
+                                        <span
+                                          key={company.id}
+                                          className="chip company_chip"
+                                          title={company.name}
+                                        >
+                                          {GetChipString(company.name)}
+                                        </span>
+                                      );
+                                    }
+                                  )}
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                            <p className="itemdetails__chip__box">
+                              <span>IMDB Id: </span>
+                              <span className="chip__span">
+                                {movie?.imdb_id}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="col-xl-3">
+                            <div className="itemdetails__chip__box watch__provider__container">
+                              <span className="watch__provider__heading">
+                                Watch Providers:{" "}
+                              </span>
+                              <WatchProviders data={watchProviders} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </section>
                   )}
                 </div>
@@ -300,6 +348,53 @@ const ItemDetails = () => {
         <NotFound />
       )}
     </>
+  );
+};
+
+const WatchProviders = ({ data }) => {
+  const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    let count = 0,
+      flag = false;
+    const arr_obj = [];
+
+    for (let key of ["flatrate", "buy"]) {
+      if (data[key] && Array.isArray(data[key])) {
+        for (let item of data[key]) {
+          if (item.logo_path) {
+            if (count === 4) {
+              flag = true;
+              break;
+            }
+            arr_obj.push(item);
+            count++;
+          }
+        }
+        if (flag) break;
+      }
+    }
+    setList(arr_obj);
+  }, [data]);
+
+  return (
+    <div className="container watch__providers__box">
+      <div className="row">
+        {[...list].map((provider, idx) => {
+          return (
+            <div className="col-xl-6 col-lg-2 col-md-3 col-sm-2 col-2">
+              <img
+                src={`${BASE_IMG_URI}${provider.logo_path}`}
+                key={`${idx}_${provider.provider_id}`}
+                alt={provider.provider_name}
+                className="watch__provider__item"
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

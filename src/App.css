@@ -699,7 +699,7 @@
 
 .itemdetails__content__box {
   flex: 2;
-  padding: 1rem 1rem 0.5rem 2rem;
+  padding: 1rem 1rem 0.5rem 0.5rem;
 }
 
 .itemdetails__title__rating__box {
@@ -836,6 +836,10 @@
   cursor: default;
 }
 
+.itemdetails__chip__box span.company_chip {
+  line-height: 3.2;
+}
+
 .itemdetails__chip__box span.chip:hover {
   background: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.55);
@@ -857,23 +861,17 @@
   transform: translateY(1.5px);
 }
 
-.watch__providers__box {
-  display: flex;
+.watch__provider__heading {
+  min-width: fit-content;
+
 }
 
-.watch__providers__box .provider__item {
-  display: flex;
-  flex-direction: column;
-  margin-right: 1rem;
-}
-
-.watch__providers__box img {
-  display: block;
-  margin: auto;
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
+.watch__providers__box .watch__provider__item {
+  width: 45px;
+  height: 45px;
   object-fit: contain;
+  border-radius: 5px !important;
+  margin-top: 0.4rem !important;
 }
 
 .watch__providers__box p {
@@ -914,6 +912,15 @@
 }
 
 /* ========== MEDIA QUERIES ========== */
+@media screen and (max-width: 1200px) {
+  .watch__provider__container {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .info__banner {
     padding: 3rem 2rem;
@@ -965,7 +972,7 @@
   .itemdetails__img {
     width: 85%;
     max-height: 400px;
-    object-fit: cover;
+    object-fit: contain;
   }
   .itemdetails__title {
     font-size: 23px;
@@ -973,6 +980,9 @@
   }
   .itemdetails__meta__info {
     margin-top: 1.2rem;
+  }
+  .itemdetails__nav__sections section {
+    height: auto;
   }
   .related__content__box {
     padding: 1rem 2.5%;
@@ -1043,8 +1053,11 @@
     margin-left: 1rem;
     margin-bottom: 0rem;
   }
-  .itemdetails__nav__sections section {
-    height: auto;
+  .watch__provider__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 }
 
@@ -1061,5 +1074,18 @@
     width: 100%;
     margin-top: 20px;
     height: 478px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .watch__provider__heading {
+    display: block;
+    margin: auto;
+  }
+  .itemdetails__container {
+    padding: 3rem 5% 1.5rem 5%;
+  }
+  .watch__providers__box .watch__provider__item {
+    margin-top: 0.8rem !important;
   }
 }
