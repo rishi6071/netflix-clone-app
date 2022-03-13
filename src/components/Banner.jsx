@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import axios from "../lib/axios";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,6 @@ const Banner = ({ fetchURI }) => {
           return response.data.results;
         })
         .then((res) => {
-          // console.log(res[0]);
           setMovie(res[Math.floor(Math.random() * res.length - 1)]);
           return res;
         })
@@ -26,6 +25,10 @@ const Banner = ({ fetchURI }) => {
     };
     fetchData();
   }, [fetchURI]);
+
+  useEffect(() => {
+    console.log(movie);
+  }, [movie]);
 
   const NavigateToItem = (event) => navigate(`/item/${event.target.id}`);
 

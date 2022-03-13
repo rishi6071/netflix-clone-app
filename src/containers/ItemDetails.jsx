@@ -356,6 +356,8 @@ const WatchProviders = ({ data }) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
+    if (!data) return;
+
     let count = 0,
       flag = false;
     const arr_obj = [];
@@ -383,10 +385,12 @@ const WatchProviders = ({ data }) => {
       <div className="row">
         {[...list].map((provider, idx) => {
           return (
-            <div className="col-xl-6 col-lg-2 col-md-3 col-sm-2 col-2">
+            <div
+              className="col-xl-6 col-lg-2 col-md-3 col-sm-2 col-2"
+              key={`${idx}_${provider.provider_id}`}
+            >
               <img
                 src={`${BASE_IMG_URI}${provider.logo_path}`}
-                key={`${idx}_${provider.provider_id}`}
                 alt={provider.provider_name}
                 className="watch__provider__item"
               />

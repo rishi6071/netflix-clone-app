@@ -7,7 +7,7 @@ import Netflix from "../media/Icons/brand.png";
 import Avatar from "../media/Icons/avatar.png";
 
 const Navbar = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const [showSearch, setShowSearch] = useState(false);
@@ -16,10 +16,9 @@ const Navbar = () => {
 
   useEffect(() => {
     const scrollFun = () => {
-      let coord = 0,
-        path = location.pathname;
-      if (path === "/") coord = 300;
-      else if (path.startsWith("/browse")) coord = 200;
+      let coord = 0;
+      if (pathname === "/") coord = 300;
+      else if (pathname.startsWith("/browse")) coord = 200;
       else coord = 5;
 
       if (window.scrollY > coord) setShowBg(true);
@@ -31,7 +30,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", scrollFun);
     };
-  }, [location]);
+  }, [pathname]);
 
   const SubmitSearch = (event) => {
     event.preventDefault();
@@ -64,13 +63,17 @@ const Navbar = () => {
           </NavLink>
 
           <div className="navbar__button__box">
-            <button
-              type="button"
-              className="search__button"
-              onClick={ToggleSearch}
-            >
-              <i className="bx bx-search-alt"></i>
-            </button>
+            {pathname !== "/" ? (
+              <button
+                type="button"
+                className="search__button"
+                onClick={ToggleSearch}
+              >
+                <i className="bx bx-search-alt"></i>
+              </button>
+            ) : (
+              ""
+            )}
             <button
               className="navbar-toggler"
               type="button"
@@ -85,14 +88,14 @@ const Navbar = () => {
           </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            {location.pathname !== "/" ? (
+            {pathname !== "/" ? (
               <>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item ms-md-4 ms-2">
                     <NavLink
                       to="/browse"
                       className={`nav-link ${
-                        location.pathname.startsWith("/browse")
+                        pathname.startsWith("/browse")
                           ? "active__navlink"
                           : ""
                       }`}
@@ -127,7 +130,7 @@ const Navbar = () => {
             )}
             <ul
               className={`navbar-nav ${
-                location.pathname === "/" ? "ms-auto" : ""
+                pathname === "/" ? "ms-auto" : ""
               }`}
             >
               <li className="nav-item">
@@ -183,7 +186,7 @@ const Navbar = () => {
           </button>
         </div>
         <div className="offcanvas-body">
-          {location.pathname !== "/" ? (
+          {pathname !== "/" ? (
             <>
               <form
                 className="d-flex justify-content-center"
@@ -204,7 +207,7 @@ const Navbar = () => {
                   <NavLink
                     to="/browse"
                     className={`nav-link ${
-                      location.pathname.startsWith("/browse")
+                      pathname.startsWith("/browse")
                         ? "active__navlink"
                         : ""
                     }`}
