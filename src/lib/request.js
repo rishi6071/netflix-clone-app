@@ -5,6 +5,7 @@ const requests = (page_num) => {
     fetchNetflixOriginals: `/discover/tv?api_key=${API_KEY}&with_networks=213&page=${page_num}`,
     fetchIndianMovies: `/discover/movie?api_key=${API_KEY}&region=IN&language=hi-IN&with_original_language=hi&page=${page_num}`,
     fetchTrending: `/trending/all/week?api_key=${API_KEY}&page=${page_num}`,
+    fetchUpcoming: `/movie/upcoming?api_key=${API_KEY}&page=${page_num}`,
     fetchTopRated: `/movie/top_rated?api_key=${API_KEY}&page=${page_num}`,
     fetchActionMovies: `/discover/movie?api_key=${API_KEY}&with_genres=28&page=${page_num}`,
     fetchComedyMovies: `/discover/movie?api_key=${API_KEY}&with_genres=35&page=${page_num}`,

@@ -9,11 +9,12 @@ import ItemsRow from "../components/ItemsRow";
 import requests from "../lib/request";
 
 const Browse = () => {
-  const randomPageNo = Math.floor(Math.random() * 10 + 1);
+  const randomPageNo = Math.floor(Math.random() * 5 + 1);
   const {
     fetchNetflixOriginals,
     fetchIndianMovies,
     fetchTrending,
+    fetchUpcoming,
     fetchTopRated,
     fetchActionMovies,
     fetchComedyMovies,
@@ -37,6 +38,7 @@ const Browse = () => {
           isLarge
         />
         <ItemsRow title="Trending Now" fetchURI={fetchTrending} />
+        <ItemsRow title="Upcoming Movies" fetchURI={fetchUpcoming} />
         <ItemsRow title="Top Rated" fetchURI={fetchTopRated} />
         <ItemsRow title="Action Movies" fetchURI={fetchActionMovies} />
         <ItemsRow title="Comedies" fetchURI={fetchComedyMovies} />

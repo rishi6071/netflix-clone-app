@@ -98,8 +98,10 @@ const ItemDetails = () => {
   const GetReleaseYear = (date) => `${date ? date.split("-")[0] : ""}`;
   const ShiftSection = (event) => setCurrentSection(event.target.id);
   const GetDate = (dt) => {
-    const date = new Date(dt).toLocaleDateString();
-    return date.replace("/", "-").replace("/", "-");
+    let date = new Date(dt).toLocaleDateString();
+    date = date.split("/");
+    date = `${date[1]}-${date[0]}-${date[2]}`;
+    return date;
   };
   const GetChipString = (str) => {
     if (str.length > 20) {
@@ -329,16 +331,18 @@ const ItemDetails = () => {
           </div>
 
           <div className="related__content__box">
-            <h4 className="itemdetails__title related__title">
-              <span>Recommended For You</span>
-            </h4>
             {relatedMoviesReq !== "" ? (
-              <ItemsRow
-                title="Related Movies"
-                fetchURI={relatedMoviesReq}
-                isLarge
-                noTitle
-              />
+              <>
+                <h4 className="itemdetails__title related__title">
+                  <span>Recommended For You</span>
+                </h4>
+                <ItemsRow
+                  title="Related Movies"
+                  fetchURI={relatedMoviesReq}
+                  isLarge
+                  noTitle
+                />
+              </>
             ) : (
               ""
             )}

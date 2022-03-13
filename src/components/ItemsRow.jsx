@@ -54,7 +54,7 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
             return (
               <img
                 key={movie?.id}
-                id={movie?.id}
+                id={movie.id}
                 src={`${BASE_IMG_URI}${
                   isLarge ? `${movie.poster_path}` : `${movie.backdrop_path}`
                 }`}
