@@ -16,8 +16,7 @@ const ItemsGrid = ({ searchItems, NavigateToItem }) => {
               >
                 <div
                   className="card search__item"
-                  id={item.id}
-                  onClick={NavigateToItem}
+                  onClick={(event) => NavigateToItem(event, `${item.id}`)}
                 >
                   <img
                     src={`${BASE_IMG_URI}${item.poster_path}`}

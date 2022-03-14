@@ -23,9 +23,9 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
     fetchData();
   }, [fetchURI]);
 
-  const NavigateToItem = (event) => {
-    const id = event.target.id;
-    navigate(`/item/${id ? id : "null"}`);
+  const NavigateToItem = (event, item_id) => {
+    event.stopPropagation();
+    navigate(`/item/${item_id ? item_id : "null"}`);
   };
 
   // LOGIC for Link Component (to get the collection_name on the basis of api_request)
@@ -60,7 +60,7 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
                 }`}
                 className={`item__img ${isLarge ? "large__poster" : ""}`}
                 alt={movie.original_name}
-                onClick={NavigateToItem}
+                onClick={(event) => NavigateToItem(event, `${movie.id}`)}
               />
             );
           return "";

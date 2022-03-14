@@ -35,9 +35,9 @@ const Search = () => {
     fetchData();
   }, [query, currentPage]);
 
-  const NavigateToItem = (event) => {
-    const id = event.target.id;
-    navigate(`/item/${id ? id : "null"}`);
+  const NavigateToItem = (event, item_id) => {
+    event.stopPropagation();
+    navigate(`/item/${item_id ? item_id : "null"}`);
   };
 
   const HandleLoadMore = () => {
