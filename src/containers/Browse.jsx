@@ -24,7 +24,7 @@ const Browse = () => {
   } = requests(randomPageNo);
 
   return (
-    <>
+    <main>
       <Banner fetchURI={fetchNetflixOriginals} />
       <div className="all_rows__container">
         <ItemsRow
@@ -55,7 +55,7 @@ const Browse = () => {
         <ItemsRow title="Western" fetchURI={fetchWestern} />
         <ItemsRow title="Sci-Fi" fetchURI={fetchSciFi} /> */}
       </div>
-    </>
+    </main>
   );
 };
 

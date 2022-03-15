@@ -5,7 +5,6 @@ import axios from "../lib/axios";
 
 // Movie Trailer
 import YouTube from "react-youtube";
-import movieTrailer from "movie-trailer";
 
 // Requests
 import { item_requests } from "../lib/request";
@@ -39,6 +38,7 @@ const ItemDetails = () => {
       fetchSimilarMovies,
       fetchWatchProviders,
       fetchImages,
+      fetchVideos,
     } = item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
 
@@ -56,7 +56,6 @@ const ItemDetails = () => {
           setNotFound(true);
         });
     };
-    fetchItemDetails();
 
     // Fetch Item Watch Providers
     const fetchProviders = async () => {
@@ -70,49 +69,66 @@ const ItemDetails = () => {
           console.log(error);
         });
     };
-    fetchProviders().then((response) => {
-      fetchScreenshots();
-    });
 
     // Fetch Item Screenshots/Images
     const fetchScreenshots = async () => {
       await axios
         .get(fetchImages)
         .then((response) => {
-          setScreenshots(response.data);
+          setTimeout(() => {
+            setScreenshots(response.data);
+          }, 2000);
           return response;
         })
         .catch((error) => {
           console.log(error);
         });
     };
+
+    // Fetch Item Videos/Trailer
+    const fetchTrailer = async () => {
+      setShowTrailer(false);
+      await axios
+        .get(fetchVideos)
+        .then((response) => {
+          return response.data.results;
+        })
+        .then((res) => {
+          if (res.length > 0) {
+            let backup = res[0],
+              flag = false;
+
+            for (let video of res) {
+              if (video.key && video.official) backup = video;
+              if (video.key && video.official && video.type === "Trailer") {
+                setTrailerURL(video);
+                flag = true;
+                break;
+              }
+            }
+
+            if (!flag) setTrailerURL(backup);
+          }
+          setShowTrailer(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    // Calling APIs on basis of priorities
+    fetchItemDetails().then((response) => {
+      fetchProviders();
+      fetchScreenshots();
+      fetchTrailer();
+    });
   }, [id]);
-
-  // MOVIE TRAILER
-  useEffect(() => {
-    if (Object.keys(movie).length === 0) return;
-    setShowTrailer(false);
-    movieTrailer(movie?.name || movie?.title || "")
-      .then((url) => {
-        const urlParams = new URLSearchParams(new URL(url).search);
-        setTrailerURL(urlParams.get("v"));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    // Show Trailer after 2 Seconds
-    setTimeout(() => {
-      setShowTrailer(true);
-    }, 2000);
-  }, [movie]);
 
   // Config for Youtube Trailer
   const opts = {
     width: "100%",
     height: 310,
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
     },
   };
@@ -137,7 +153,7 @@ const ItemDetails = () => {
   };
 
   return (
-    <>
+    <main>
       {!notFound ? (
         <>
           <div className="itemdetails__container" id={movie?.id}>
@@ -247,7 +263,11 @@ const ItemDetails = () => {
                     <section>
                       {/* TRAILERS & MORE SECTION */}
                       {showTrailer ? (
-                        <YouTube videoId={trailerURL} opts={opts} />
+                        <YouTube
+                          videoId={trailerURL.key}
+                          opts={opts}
+                          title={trailerURL.name}
+                        />
                       ) : (
                         <Loader />
                       )}
@@ -350,7 +370,7 @@ const ItemDetails = () => {
             {relatedMoviesReq !== "" && (
               <>
                 <h4 className="itemdetails__title related__title">
-                  <span>Recommended For You</span>
+                  Recommended For You
                 </h4>
                 <ItemsRow
                   title="Related Movies"
@@ -370,7 +390,7 @@ const ItemDetails = () => {
       ) : (
         <NotFound />
       )}
-    </>
+    </main>
   );
 };
 
@@ -403,12 +423,12 @@ const WatchProviders = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="container watch__providers__box">
+    <div className="container-fluid watch__providers__box">
       <div className="row">
         {[...list].map((provider, idx) => {
           return (
             <div
-              className="col-xl-6 col-lg-2 col-md-3 col-sm-2 col-2"
+              className="col-xl-6 col-lg-2 col-md-3 col-sm-2 col-2 px-0 me-3"
               key={`${idx}_${provider.provider_id}`}
             >
               <img
@@ -447,18 +467,16 @@ const MovieScreenshots = ({ data }) => {
   return (
     <>
       {hasImages ? (
-        <div className="container">
-          <h4 className="itemdetails__title screenshots__title">
-            <span>Screenshots</span>
-          </h4>
+        <div className="container-sm">
+          <h4 className="itemdetails__title screenshots__title">Screenshots</h4>
 
-          <div className="container">
-            <div className="row gx-3">
+          <div className="container-fluid px-1">
+            <div className="row gx-sm-4 gx-3">
               {[...images].map((img, idx) => {
-                if (img.file_path)
+                if (img.file_path && idx < 8)
                   return (
                     <div
-                      className="col-xl-4 col-6 mt-4"
+                      className="col-xxl-3 col-lg-4 col-sm-6 col-6 mt-4"
                       key={`${idx}_${img.height}`}
                     >
                       <img
