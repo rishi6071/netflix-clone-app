@@ -25,8 +25,8 @@ const item_requests = (id) => {
   const API_KEY = process.env.REACT_APP_PUBLIC_KEY;
   return {
     fetchDetails: `/movie/${id}?api_key=${API_KEY}`,
-    fetchImages: `/movie/${id}/images?api_key=${API_KEY}&language=en-US`,
-    fetchVideos: `/movie/${id}/videos?api_key=${API_KEY}&language=en-US`,
+    fetchImages: `/movie/${id}/images?api_key=${API_KEY}`,
+    fetchVideos: `/movie/${id}/videos?api_key=${API_KEY}`,
     fetchSimilarMovies: `/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`,
     fetchWatchProviders: `/movie/${id}/watch/providers?api_key=${API_KEY}`,
   };

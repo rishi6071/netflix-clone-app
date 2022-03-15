@@ -147,7 +147,7 @@ const Home = () => {
 
       {/* FAQ Section */}
       <div className="faq__container">
-        {faqs.length > 0 ? (
+        {faqs.length > 0 && (
           <>
             <h1 className="faq__heading">Frequently Asked Questions</h1>
             <div
@@ -190,8 +190,6 @@ const Home = () => {
               })}
             </div>
           </>
-        ) : (
-          ""
         )}
 
         <div className="home__banner__label faq__form__label">

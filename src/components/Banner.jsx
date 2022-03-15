@@ -34,7 +34,7 @@ const Banner = ({ fetchURI }) => {
 
   return (
     <>
-      {movie ? (
+      {movie && (
         <div
           className="banner__container"
           id={movie?.id}
@@ -75,8 +75,6 @@ const Banner = ({ fetchURI }) => {
 
           <div className="banner__fadebottom"></div>
         </div>
-      ) : (
-        ""
       )}
     </>
   );

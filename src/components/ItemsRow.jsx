@@ -34,15 +34,13 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
 
   return (
     <div className="items__row__box">
-      {!noTitle ? (
+      {!noTitle && (
         <Link
           to={`/collection/${collection_name}`}
           className="item__row__header"
         >
           {title}
         </Link>
-      ) : (
-        ""
       )}
 
       <div className="container-fluid items__box">

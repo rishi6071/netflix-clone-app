@@ -13,13 +13,15 @@ import ItemsRow from "../components/ItemsRow";
 import NotFound from "../components/NotFound";
 import Loader from "../components/Loader";
 
-const ItemDetails = () => {
-  const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
-  const { id } = useParams();
+const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
+const ItemDetails = () => {
+  const { id } = useParams();
   const [notFound, setNotFound] = useState(false);
+
   const [movie, setMovie] = useState({});
   const [watchProviders, setWatchProviders] = useState([]);
+  const [screenshots, setScreenshots] = useState([]);
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
@@ -32,10 +34,15 @@ const ItemDetails = () => {
     }
 
     window.scrollTo(0, 0);
-    const { fetchDetails, fetchSimilarMovies, fetchWatchProviders } =
-      item_requests(id);
+    const {
+      fetchDetails,
+      fetchSimilarMovies,
+      fetchWatchProviders,
+      fetchImages,
+    } = item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
 
+    // Fetch Item Details
     const fetchItemDetails = async () => {
       await axios
         .get(fetchDetails)
@@ -51,6 +58,7 @@ const ItemDetails = () => {
     };
     fetchItemDetails();
 
+    // Fetch Item Watch Providers
     const fetchProviders = async () => {
       await axios
         .get(fetchWatchProviders)
@@ -62,9 +70,25 @@ const ItemDetails = () => {
           console.log(error);
         });
     };
-    fetchProviders();
+    fetchProviders().then((response) => {
+      fetchScreenshots();
+    });
+
+    // Fetch Item Screenshots/Images
+    const fetchScreenshots = async () => {
+      await axios
+        .get(fetchImages)
+        .then((response) => {
+          setScreenshots(response.data);
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
   }, [id]);
 
+  // MOVIE TRAILER
   useEffect(() => {
     if (Object.keys(movie).length === 0) return;
     setShowTrailer(false);
@@ -83,6 +107,7 @@ const ItemDetails = () => {
     }, 2000);
   }, [movie]);
 
+  // Config for Youtube Trailer
   const opts = {
     width: "100%",
     height: 310,
@@ -184,7 +209,7 @@ const ItemDetails = () => {
                       <p className="itemdetails__desc">{movie?.overview}</p>
                       <p className="itemdetails__chip__box">
                         <span>Genre: </span>
-                        {movie.genres ? (
+                        {movie.genres && (
                           <>
                             {[...movie?.genres].map((genre) => {
                               return (
@@ -194,13 +219,11 @@ const ItemDetails = () => {
                               );
                             })}
                           </>
-                        ) : (
-                          ""
                         )}
                       </p>
                       <p className="itemdetails__chip__box">
                         <span>Languages: </span>
-                        {movie.spoken_languages ? (
+                        {movie.spoken_languages && (
                           <>
                             {[...movie?.spoken_languages].map((lang) => {
                               return (
@@ -210,8 +233,6 @@ const ItemDetails = () => {
                               );
                             })}
                           </>
-                        ) : (
-                          ""
                         )}
                       </p>
                       <p className="itemdetails__chip__box">
@@ -245,7 +266,7 @@ const ItemDetails = () => {
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Languages: </span>
-                              {movie.spoken_languages ? (
+                              {movie.spoken_languages && (
                                 <>
                                   {[...movie?.spoken_languages].map((lang) => {
                                     return (
@@ -258,13 +279,11 @@ const ItemDetails = () => {
                                     );
                                   })}
                                 </>
-                              ) : (
-                                ""
                               )}
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Production Country: </span>
-                              {movie.production_countries ? (
+                              {movie.production_countries && (
                                 <>
                                   {[...movie?.production_countries].map(
                                     (country) => {
@@ -280,13 +299,11 @@ const ItemDetails = () => {
                                     }
                                   )}
                                 </>
-                              ) : (
-                                ""
                               )}
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Production By: </span>
-                              {movie.production_companies ? (
+                              {movie.production_companies && (
                                 <>
                                   {[...movie?.production_companies].map(
                                     (company) => {
@@ -302,8 +319,6 @@ const ItemDetails = () => {
                                     }
                                   )}
                                 </>
-                              ) : (
-                                ""
                               )}
                             </p>
                             <p className="itemdetails__chip__box">
@@ -330,8 +345,9 @@ const ItemDetails = () => {
             </div>
           </div>
 
+          {/* RELATED CONTENT */}
           <div className="related__content__box">
-            {relatedMoviesReq !== "" ? (
+            {relatedMoviesReq !== "" && (
               <>
                 <h4 className="itemdetails__title related__title">
                   <span>Recommended For You</span>
@@ -343,9 +359,12 @@ const ItemDetails = () => {
                   noTitle
                 />
               </>
-            ) : (
-              ""
             )}
+          </div>
+
+          {/* MOVIE SCREENSHOTS */}
+          <div className="movie__screenshots__box">
+            <MovieScreenshots data={screenshots} />
           </div>
         </>
       ) : (
@@ -356,7 +375,6 @@ const ItemDetails = () => {
 };
 
 const WatchProviders = ({ data }) => {
-  const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -403,6 +421,62 @@ const WatchProviders = ({ data }) => {
         })}
       </div>
     </div>
+  );
+};
+
+const MovieScreenshots = ({ data }) => {
+  const [hasImages, setHasImages] = useState(false);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (!data) return;
+    setHasImages(false);
+
+    let request = "";
+    if (data.backdrops && data.backdrops.length > 0) {
+      request = "backdrops";
+      setHasImages(true);
+    } else {
+      setHasImages(false);
+      return;
+    }
+
+    setImages(data[request]);
+  }, [data]);
+
+  return (
+    <>
+      {hasImages ? (
+        <div className="container">
+          <h4 className="itemdetails__title screenshots__title">
+            <span>Screenshots</span>
+          </h4>
+
+          <div className="container">
+            <div className="row gx-3">
+              {[...images].map((img, idx) => {
+                if (img.file_path)
+                  return (
+                    <div
+                      className="col-xl-4 col-6 mt-4"
+                      key={`${idx}_${img.height}`}
+                    >
+                      <img
+                        src={`${BASE_IMG_URI}${img.file_path}`}
+                        alt={`Screenshot_${idx + 1}`}
+                        loading="lazy"
+                      />
+                    </div>
+                  );
+                else return "";
+              })}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
+    </>
   );
 };
 

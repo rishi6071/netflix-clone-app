@@ -56,14 +56,12 @@ const Search = () => {
       <ItemsGrid searchItems={searchItems} NavigateToItem={NavigateToItem} />
 
       {/* Pagination LOAD MORE */}
-      {currentPage < totalPages ? (
+      {currentPage < totalPages && (
         <div className="load__more__box">
           <button type="button" className="btn" onClick={HandleLoadMore}>
             <span>LOAD MORE</span> <i className="bx bx-loader-circle"></i>
           </button>
         </div>
-      ) : (
-        ""
       )}
     </div>
   );

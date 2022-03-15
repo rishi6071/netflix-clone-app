@@ -53,9 +53,7 @@ const Navbar = () => {
     <header>
       {/* Navbar */}
       <nav
-        className={`navbar navbar-expand-md px-sm-3 px-1 ${
-          showBg ? "showBg" : ""
-        }`}
+        className={`navbar navbar-expand-md px-sm-3 px-1 ${showBg && "showBg"}`}
       >
         <div className="container-fluid">
           <NavLink to="/" className="navbar-brand brand__logo">
@@ -63,7 +61,7 @@ const Navbar = () => {
           </NavLink>
 
           <div className="navbar__button__box">
-            {pathname !== "/" ? (
+            {pathname !== "/" && (
               <button
                 type="button"
                 className="search__button"
@@ -71,8 +69,6 @@ const Navbar = () => {
               >
                 <i className="bx bx-search-alt"></i>
               </button>
-            ) : (
-              ""
             )}
             <button
               className="navbar-toggler"
@@ -88,16 +84,14 @@ const Navbar = () => {
           </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            {pathname !== "/" ? (
+            {pathname !== "/" && (
               <>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item ms-md-4 ms-2">
                     <NavLink
                       to="/browse"
                       className={`nav-link ${
-                        pathname.startsWith("/browse")
-                          ? "active__navlink"
-                          : ""
+                        pathname.startsWith("/browse") ? "active__navlink" : ""
                       }`}
                       aria-current="page"
                     >
@@ -125,14 +119,8 @@ const Navbar = () => {
                   />
                 </form>
               </>
-            ) : (
-              ""
             )}
-            <ul
-              className={`navbar-nav ${
-                pathname === "/" ? "ms-auto" : ""
-              }`}
-            >
+            <ul className={`navbar-nav ${pathname === "/" ? "ms-auto" : ""}`}>
               <li className="nav-item">
                 <NavLink to="/" className="navbar-brand avatar__logo">
                   <img src={Avatar} alt="Netflix-Brand" />
@@ -142,7 +130,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {showSearch ? (
+        {showSearch && (
           <div className="container-fluid mt-3 pb-2 d-flex justify-content-center">
             <form
               className="d-flex justify-content-center"
@@ -160,8 +148,6 @@ const Navbar = () => {
               />
             </form>
           </div>
-        ) : (
-          ""
         )}
       </nav>
 
@@ -207,9 +193,7 @@ const Navbar = () => {
                   <NavLink
                     to="/browse"
                     className={`nav-link ${
-                      pathname.startsWith("/browse")
-                        ? "active__navlink"
-                        : ""
+                      pathname.startsWith("/browse") ? "active__navlink" : ""
                     }`}
                     data-bs-dismiss="offcanvas"
                   >
