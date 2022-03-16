@@ -21,6 +21,7 @@ const ItemDetails = () => {
   const [movie, setMovie] = useState({});
   const [watchProviders, setWatchProviders] = useState([]);
   const [screenshots, setScreenshots] = useState([]);
+  const [credits, setCredits] = useState([]);
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
@@ -39,6 +40,7 @@ const ItemDetails = () => {
       fetchWatchProviders,
       fetchImages,
       fetchVideos,
+      fetchCredits
     } = item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
 
@@ -116,11 +118,24 @@ const ItemDetails = () => {
         });
     };
 
+    // Fetch Item Cast/Credits
+    const fetchCastCredits = async () => {
+      await axios.get(fetchCredits).then(response => {
+        const tmp = response.data?.cast;
+        if (tmp.length > 0)
+          setCredits(tmp.slice(0, 5))
+        return response;
+      }).catch(error => {
+        console.log(error);
+      })
+    }
+
     // Calling APIs on basis of priorities
     fetchItemDetails().then((response) => {
       fetchProviders();
       fetchScreenshots();
       fetchTrailer();
+      fetchCastCredits();
     });
   }, [id]);
 
@@ -146,7 +161,7 @@ const ItemDetails = () => {
   };
   const GetChipString = (str) => {
     if (str.length > 20) {
-      str = str.substring(0, 20);
+      str = str.substring(0, 18);
       str += "..";
     }
     return str;
@@ -285,21 +300,22 @@ const ItemDetails = () => {
                               </span>
                             </p>
                             <p className="itemdetails__chip__box">
-                              <span>Languages: </span>
-                              {movie.spoken_languages && (
+                              <span>Cast: </span>
+                              {credits && (
                                 <>
-                                  {[...movie?.spoken_languages].map((lang) => {
+                                  {[...credits].map((cast) => {
                                     return (
                                       <span
-                                        key={lang.iso_639_1}
-                                        className="chip"
+                                        key={cast.id}
+                                        className="chip cc__chip"
                                       >
-                                        {lang.english_name}
+                                        {cast.original_name}
                                       </span>
                                     );
                                   })}
                                 </>
                               )}
+                              <span className="cast__more__span">& More</span>
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Production Country: </span>
@@ -310,10 +326,10 @@ const ItemDetails = () => {
                                       return (
                                         <span
                                           key={country.id}
-                                          className="chip"
+                                          className="chip cc__chip"
                                           title={country.name}
                                         >
-                                          {GetChipString(country.name)}
+                                          {country.name}
                                         </span>
                                       );
                                     }
@@ -330,7 +346,7 @@ const ItemDetails = () => {
                                       return (
                                         <span
                                           key={company.id}
-                                          className="chip company_chip"
+                                          className="chip cc__chip"
                                           title={company.name}
                                         >
                                           {GetChipString(company.name)}
@@ -476,7 +492,7 @@ const MovieScreenshots = ({ data }) => {
                 if (img.file_path && idx < 8)
                   return (
                     <div
-                      className="col-xxl-3 col-lg-4 col-sm-6 col-6 mt-4"
+                      className="col-xl-3 col-md-4 col-6 mt-4"
                       key={`${idx}_${img.height}`}
                     >
                       <img

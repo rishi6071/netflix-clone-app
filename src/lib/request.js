@@ -29,6 +29,7 @@ const item_requests = (id) => {
     fetchVideos: `/movie/${id}/videos?api_key=${API_KEY}`,
     fetchSimilarMovies: `/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`,
     fetchWatchProviders: `/movie/${id}/watch/providers?api_key=${API_KEY}`,
+    fetchCredits: `/movie/${id}/credits?api_key=${API_KEY}`
   };
 };
 
