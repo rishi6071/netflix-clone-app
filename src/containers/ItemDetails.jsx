@@ -40,7 +40,7 @@ const ItemDetails = () => {
       fetchWatchProviders,
       fetchImages,
       fetchVideos,
-      fetchCredits
+      fetchCredits,
     } = item_requests(id);
     setRelatedMoviesReq(fetchSimilarMovies);
 
@@ -120,15 +120,17 @@ const ItemDetails = () => {
 
     // Fetch Item Cast/Credits
     const fetchCastCredits = async () => {
-      await axios.get(fetchCredits).then(response => {
-        const tmp = response.data?.cast;
-        if (tmp.length > 0)
-          setCredits(tmp.slice(0, 5))
-        return response;
-      }).catch(error => {
-        console.log(error);
-      })
-    }
+      await axios
+        .get(fetchCredits)
+        .then((response) => {
+          const tmp = response.data?.cast;
+          if (tmp.length > 0) setCredits(tmp.slice(0, 5));
+          return response;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
     // Calling APIs on basis of priorities
     fetchItemDetails().then((response) => {
@@ -218,7 +220,7 @@ const ItemDetails = () => {
                     }
                     onClick={ShiftSection}
                   >
-                    Trailers & More
+                    Trailers <span>& More</span>
                   </button>
                   <button
                     type="button"
@@ -239,12 +241,29 @@ const ItemDetails = () => {
                       <p className="itemdetails__tagline">{movie?.tagline}</p>
                       <p className="itemdetails__desc">{movie?.overview}</p>
                       <p className="itemdetails__chip__box">
+                        <span>Cast: </span>
+                        {credits && (
+                          <>
+                            {[...credits].map((cast) => {
+                              return (
+                                <span key={cast.id} className="chip cc__chip">
+                                  {cast.original_name}
+                                </span>
+                              );
+                            })}
+                          </>
+                        )}
+                      </p>
+                      <p className="itemdetails__chip__box">
                         <span>Genre: </span>
                         {movie.genres && (
                           <>
                             {[...movie?.genres].map((genre) => {
                               return (
-                                <span key={genre.iso_3166_1} className="chip">
+                                <span
+                                  key={genre.iso_3166_1}
+                                  className="chip cc__chip"
+                                >
                                   {genre.name}
                                 </span>
                               );
@@ -258,20 +277,13 @@ const ItemDetails = () => {
                           <>
                             {[...movie?.spoken_languages].map((lang) => {
                               return (
-                                <span key={lang.iso_639_1} className="chip">
+                                <span key={lang.iso_639_1} className="chip mb-2">
                                   {lang.english_name}
                                 </span>
                               );
                             })}
                           </>
                         )}
-                      </p>
-                      <p className="itemdetails__chip__box">
-                        <span>Popularity: </span>
-                        <span className="chip__span text-white">
-                          <i className="bx bxs-star"></i> {movie?.vote_average}{" "}
-                          ({movie?.vote_count})
-                        </span>
                       </p>
                     </section>
                   ) : currentSection === "trailers" ? (
@@ -300,22 +312,11 @@ const ItemDetails = () => {
                               </span>
                             </p>
                             <p className="itemdetails__chip__box">
-                              <span>Cast: </span>
-                              {credits && (
-                                <>
-                                  {[...credits].map((cast) => {
-                                    return (
-                                      <span
-                                        key={cast.id}
-                                        className="chip cc__chip"
-                                      >
-                                        {cast.original_name}
-                                      </span>
-                                    );
-                                  })}
-                                </>
-                              )}
-                              <span className="cast__more__span">& More</span>
+                              <span>Popularity: </span>
+                              <span className="chip__span text-white">
+                                <i className="bx bxs-star"></i>{" "}
+                                {movie?.vote_average} ({movie?.vote_count})
+                              </span>
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Production Country: </span>
