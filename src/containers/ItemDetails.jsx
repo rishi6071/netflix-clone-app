@@ -493,7 +493,7 @@ const MovieScreenshots = ({ data }) => {
                 if (img.file_path && idx < 8)
                   return (
                     <div
-                      className="col-xl-3 col-md-4 col-6 mt-4"
+                      className="col-lg-4 col-sm-6 col-12 mt-4"
                       key={`${idx}_${img.height}`}
                     >
                       <img

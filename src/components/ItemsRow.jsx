@@ -20,7 +20,7 @@ const ItemsRow = ({ title, fetchURI, isLarge, noTitle }) => {
           console.log(error);
         });
     };
-    fetchData();
+    setTimeout(() => fetchData(), 500);
   }, [fetchURI]);
 
   const NavigateToItem = (event, item_id) => {

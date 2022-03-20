@@ -18,6 +18,7 @@ const Browse = () => {
     fetchTopRated,
     fetchActionMovies,
     fetchComedyMovies,
+    fetchSciFi,
     fetchRomanceMovies,
     fetchAnimation,
     fetchHorrorMovies,
@@ -42,6 +43,7 @@ const Browse = () => {
         <ItemsRow title="Top Rated" fetchURI={fetchTopRated} />
         <ItemsRow title="Action Movies" fetchURI={fetchActionMovies} />
         <ItemsRow title="Comedies" fetchURI={fetchComedyMovies} />
+        <ItemsRow title="Science Fiction" fetchURI={fetchSciFi} />
         <ItemsRow title="Romantic Movies" fetchURI={fetchRomanceMovies} />
         <ItemsRow title="Animation Movies" fetchURI={fetchAnimation} />
         <ItemsRow title="Horror Movies" fetchURI={fetchHorrorMovies} />
@@ -53,7 +55,7 @@ const Browse = () => {
         <ItemsRow title="TV Shows" fetchURI={fetchTV} />
         <ItemsRow title="Mystery" fetchURI={fetchMystery} />
         <ItemsRow title="Western" fetchURI={fetchWestern} />
-        <ItemsRow title="Sci-Fi" fetchURI={fetchSciFi} /> */}
+         */}
       </div>
     </main>
   );

@@ -56,7 +56,10 @@ const Navbar = () => {
         className={`navbar navbar-expand-md px-sm-3 px-1 ${showBg && "showBg"}`}
       >
         <div className="container-fluid">
-          <NavLink to="/" className="navbar-brand brand__logo">
+          <NavLink
+            to={pathname === "/" ? "/" : "/browse"}
+            className="navbar-brand brand__logo"
+          >
             <img src={Netflix} alt="Netflix-Brand" />
           </NavLink>
 
