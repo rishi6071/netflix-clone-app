@@ -25,7 +25,7 @@ const ItemDetails = () => {
   const [showTrailer, setShowTrailer] = useState(false);
   const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
-  const [relatedMoviesReq, setRelatedMoviesReq] = useState("");
+  const [relatedMovies, setRelatedMovies] = useState([]);
 
   useEffect(() => {
     if (id === "null") {
@@ -34,24 +34,17 @@ const ItemDetails = () => {
     }
 
     window.scrollTo(0, 0);
-    const {
-      fetchDetails,
-      fetchSimilarMovies,
-      fetchWatchProviders,
-      fetchImages,
-      fetchVideos,
-      fetchCredits,
-    } = item_requests(id);
-    setRelatedMoviesReq(fetchSimilarMovies);
+    const { fetchDetails, fetchSimilarMovies, fetchWatchProviders, fetchImages, fetchVideos, fetchCredits } =
+      item_requests(id);
 
     // Fetch Item Details
     const fetchItemDetails = async () => {
       await axios
         .get(fetchDetails)
-        .then((response) => {
-          setMovie(response.data);
-          setTrailerURL(response.data.name || response.data.title || "");
-          return response;
+        .then((res) => {
+          setMovie(res.data);
+          setTrailerURL(res.data.name || res.data.title || "");
+          return res;
         })
         .catch((error) => {
           console.log(error);
@@ -59,13 +52,26 @@ const ItemDetails = () => {
         });
     };
 
+    // Fetch Recommended Items
+    const fetchRelatedMovies = async () => {
+      await axios
+        .get(fetchSimilarMovies)
+        .then((res) => {
+          setRelatedMovies(res.data.results);
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
     // Fetch Item Watch Providers
     const fetchProviders = async () => {
       await axios
         .get(fetchWatchProviders)
-        .then((response) => {
-          setWatchProviders(response.data.results.IN);
-          return response;
+        .then((res) => {
+          setWatchProviders(res.data.results.IN);
+          return res;
         })
         .catch((error) => {
           console.log(error);
@@ -76,11 +82,11 @@ const ItemDetails = () => {
     const fetchScreenshots = async () => {
       await axios
         .get(fetchImages)
-        .then((response) => {
+        .then((res) => {
           setTimeout(() => {
-            setScreenshots(response.data);
+            setScreenshots(res.data);
           }, 2000);
-          return response;
+          return res;
         })
         .catch((error) => {
           console.log(error);
@@ -92,8 +98,9 @@ const ItemDetails = () => {
       setShowTrailer(false);
       await axios
         .get(fetchVideos)
-        .then((response) => {
-          return response.data.results;
+        .then((res) => {
+          console.log(res);
+          return res.data.results;
         })
         .then((res) => {
           if (res.length > 0) {
@@ -122,10 +129,10 @@ const ItemDetails = () => {
     const fetchCastCredits = async () => {
       await axios
         .get(fetchCredits)
-        .then((response) => {
-          const tmp = response.data?.cast;
+        .then((res) => {
+          const tmp = res.data?.cast;
           if (tmp.length > 0) setCredits(tmp.slice(0, 5));
-          return response;
+          return res;
         })
         .catch((error) => {
           console.log(error);
@@ -133,11 +140,12 @@ const ItemDetails = () => {
     };
 
     // Calling APIs on basis of priorities
-    fetchItemDetails().then((response) => {
+    fetchItemDetails().then(() => {
+      fetchRelatedMovies();
       fetchProviders();
       fetchScreenshots();
-      fetchTrailer();
       fetchCastCredits();
+      fetchTrailer();
     });
   }, [id]);
 
@@ -177,20 +185,19 @@ const ItemDetails = () => {
             <div className="itemdetails__img__box">
               <img
                 src={GetPosterPath(movie?.poster_path)}
+                referrerPolicy="no-referrer"
                 className="itemdetails__img"
                 alt={movie?.title || movie?.original_title}
+                loading="eager"
               />
               <div className="itemdetails__fadebottom"></div>
             </div>
 
             <div className="itemdetails__content__box">
               <div className="itemdetails__title__rating__box">
-                <h2 className="itemdetails__title">
-                  {movie?.title || movie?.original_title}
-                </h2>
+                <h2 className="itemdetails__title">{movie?.title || movie?.original_title}</h2>
                 <h5 className="itemdetails__rating">
-                  <span>{movie?.vote_average}</span>{" "}
-                  <i className="bx bxs-star"></i>
+                  <span>{movie?.vote_average}</span> <i className="bx bxs-star"></i>
                 </h5>
               </div>
 
@@ -205,9 +212,7 @@ const ItemDetails = () => {
                   <button
                     type="button"
                     id="overview"
-                    className={
-                      currentSection === "overview" ? "activeSection" : ""
-                    }
+                    className={currentSection === "overview" ? "activeSection" : ""}
                     onClick={ShiftSection}
                   >
                     Overview
@@ -215,19 +220,15 @@ const ItemDetails = () => {
                   <button
                     type="button"
                     id="trailers"
-                    className={
-                      currentSection === "trailers" ? "activeSection" : ""
-                    }
+                    className={currentSection === "trailers" ? "activeSection" : ""}
                     onClick={ShiftSection}
                   >
-                    Trailers <span>& More</span>
+                    Trailers <span>&amp; More</span>
                   </button>
                   <button
                     type="button"
                     id="details"
-                    className={
-                      currentSection === "details" ? "activeSection" : ""
-                    }
+                    className={currentSection === "details" ? "activeSection" : ""}
                     onClick={ShiftSection}
                   >
                     Details
@@ -244,9 +245,9 @@ const ItemDetails = () => {
                         <span>Cast: </span>
                         {credits && (
                           <>
-                            {[...credits].map((cast) => {
+                            {[...credits].map((cast, idx) => {
                               return (
-                                <span key={cast.id} className="chip cc__chip">
+                                <span key={`cast_${idx + 1}_${cast.id}`} className="chip cc__chip">
                                   {cast.original_name}
                                 </span>
                               );
@@ -256,14 +257,11 @@ const ItemDetails = () => {
                       </p>
                       <p className="itemdetails__chip__box">
                         <span>Genre: </span>
-                        {movie.genres && (
+                        {movie?.genres && (
                           <>
-                            {[...movie?.genres].map((genre) => {
+                            {[...movie?.genres].map((genre, idx) => {
                               return (
-                                <span
-                                  key={genre.iso_3166_1}
-                                  className="chip cc__chip"
-                                >
+                                <span key={`genre_${idx + 1}_${genre.iso_3166_1}`} className="chip cc__chip">
                                   {genre.name}
                                 </span>
                               );
@@ -273,11 +271,11 @@ const ItemDetails = () => {
                       </p>
                       <p className="itemdetails__chip__box">
                         <span>Languages: </span>
-                        {movie.spoken_languages && (
+                        {movie?.spoken_languages && (
                           <>
-                            {[...movie?.spoken_languages].map((lang) => {
+                            {[...movie?.spoken_languages].map((lang, idx) => {
                               return (
-                                <span key={lang.iso_639_1} className="chip mb-2">
+                                <span key={`language_${idx + 1}_${lang.iso_639_1}`} className="chip mb-2">
                                   {lang.english_name}
                                 </span>
                               );
@@ -289,12 +287,8 @@ const ItemDetails = () => {
                   ) : currentSection === "trailers" ? (
                     <section>
                       {/* TRAILERS & MORE SECTION */}
-                      {showTrailer ? (
-                        <YouTube
-                          videoId={trailerURL.key}
-                          opts={opts}
-                          title={trailerURL.name}
-                        />
+                      {showTrailer && trailerURL ? (
+                        <YouTube videoId={trailerURL?.key} opts={opts} title={trailerURL?.name} />
                       ) : (
                         <Loader />
                       )}
@@ -314,27 +308,24 @@ const ItemDetails = () => {
                             <p className="itemdetails__chip__box">
                               <span>Popularity: </span>
                               <span className="chip__span text-white">
-                                <i className="bx bxs-star"></i>{" "}
-                                {movie?.vote_average} ({movie?.vote_count})
+                                <i className="bx bxs-star"></i> {movie?.vote_average} ({movie?.vote_count})
                               </span>
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Production Country: </span>
                               {movie.production_countries && (
                                 <>
-                                  {[...movie?.production_countries].map(
-                                    (country) => {
-                                      return (
-                                        <span
-                                          key={country.id}
-                                          className="chip cc__chip"
-                                          title={country.name}
-                                        >
-                                          {country.name}
-                                        </span>
-                                      );
-                                    }
-                                  )}
+                                  {[...movie?.production_countries].map((country, idx) => {
+                                    return (
+                                      <span
+                                        key={`country_${idx + 1}_${country.id}`}
+                                        className="chip cc__chip"
+                                        title={country.name}
+                                      >
+                                        {country.name}
+                                      </span>
+                                    );
+                                  })}
                                 </>
                               )}
                             </p>
@@ -342,34 +333,28 @@ const ItemDetails = () => {
                               <span>Production By: </span>
                               {movie.production_companies && (
                                 <>
-                                  {[...movie?.production_companies].map(
-                                    (company) => {
-                                      return (
-                                        <span
-                                          key={company.id}
-                                          className="chip cc__chip"
-                                          title={company.name}
-                                        >
-                                          {GetChipString(company.name)}
-                                        </span>
-                                      );
-                                    }
-                                  )}
+                                  {[...movie?.production_companies].map((company, idx) => {
+                                    return (
+                                      <span
+                                        key={`company_${idx + 1}_${company.id}`}
+                                        className="chip cc__chip"
+                                        title={company.name}
+                                      >
+                                        {GetChipString(company.name)}
+                                      </span>
+                                    );
+                                  })}
                                 </>
                               )}
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>IMDB Id: </span>
-                              <span className="chip__span">
-                                {movie?.imdb_id}
-                              </span>
+                              <span className="chip__span">{movie?.imdb_id}</span>
                             </p>
                           </div>
                           <div className="col-xl-3">
                             <div className="itemdetails__chip__box watch__provider__container">
-                              <span className="watch__provider__heading">
-                                Watch Providers:{" "}
-                              </span>
+                              <span className="watch__provider__heading">Watch Providers: </span>
                               <WatchProviders data={watchProviders} />
                             </div>
                           </div>
@@ -384,17 +369,10 @@ const ItemDetails = () => {
 
           {/* RELATED CONTENT */}
           <div className="related__content__box">
-            {relatedMoviesReq !== "" && (
+            {relatedMovies?.length > 0 && (
               <>
-                <h4 className="itemdetails__title related__title">
-                  Recommended For You
-                </h4>
-                <ItemsRow
-                  title="Related Movies"
-                  fetchURI={relatedMoviesReq}
-                  isLarge
-                  noTitle
-                />
+                <h4 className="itemdetails__title related__title">Recommended For You</h4>
+                <ItemsRow title="Related Movies" data={relatedMovies} isLarge noTitle />
               </>
             )}
           </div>
@@ -446,12 +424,14 @@ const WatchProviders = ({ data }) => {
           return (
             <div
               className="col-xl-6 col-lg-2 col-md-3 col-sm-2 col-2 px-0 me-3"
-              key={`${idx}_${provider.provider_id}`}
+              key={`provider_${idx + 1}_${provider.provider_id}`}
             >
               <img
                 src={`${BASE_IMG_URI}${provider.logo_path}`}
+                referrerPolicy="no-referrer"
                 alt={provider.provider_name}
                 className="watch__provider__item"
+                loading="lazy"
               />
             </div>
           );
@@ -490,20 +470,18 @@ const MovieScreenshots = ({ data }) => {
           <div className="container-fluid px-1">
             <div className="row gx-sm-4 gx-3">
               {[...images].map((img, idx) => {
-                if (img.file_path && idx < 8)
+                if (img?.file_path && idx < 8)
                   return (
-                    <div
-                      className="col-lg-4 col-sm-6 col-12 mt-4"
-                      key={`${idx}_${img.height}`}
-                    >
+                    <div className="col-lg-4 col-sm-6 col-12 mt-4" key={`screenshot_${idx}_${img.height}`}>
                       <img
                         src={`${BASE_IMG_URI}${img.file_path}`}
+                        referrerPolicy="no-referrer"
                         alt={`Screenshot_${idx + 1}`}
                         loading="lazy"
                       />
                     </div>
                   );
-                else return "";
+                else return <div key={idx}></div>;
               })}
             </div>
           </div>

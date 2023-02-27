@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "../lib/axios";
 import "../App.css";
 
 // Custom Components
+import Loader from "../components/Loader";
 import Banner from "../components/Banner";
 import ItemsRow from "../components/ItemsRow";
 
@@ -9,54 +11,65 @@ import ItemsRow from "../components/ItemsRow";
 import requests from "../lib/request";
 
 const Browse = () => {
-  const randomPageNo = Math.floor(Math.random() * 5 + 1);
-  const {
-    fetchNetflixOriginals,
-    fetchIndianMovies,
-    fetchTrending,
-    fetchUpcoming,
-    fetchTopRated,
-    fetchActionMovies,
-    fetchComedyMovies,
-    fetchSciFi,
-    fetchRomanceMovies,
-    fetchAnimation,
-    fetchHorrorMovies,
-  } = requests(randomPageNo);
+  const [rowsData, setRowsData] = useState([]);
+
+  // fetch all collections including banner
+  useEffect(() => {
+    const randomPageNo = Math.floor(Math.random() * 5 + 1);
+    const api_requests = requests(randomPageNo);
+
+    const fetchCollections = async (api_requests) => {
+      if (Object.keys(api_requests)?.length > 0) {
+        // request with api-result
+        const results = [];
+
+        const promises = [];
+        for (let api in api_requests) {
+          results.push(api_requests[api]);
+          promises.push(axios.get(api_requests[api]?.url));
+        }
+        const values = await Promise.all([...promises]);
+
+        // combining request with request-result
+        for (let i = 0; i < results.length; i++) {
+          results[i]["data"] = values[i]?.data?.results;
+        }
+        // console.log(results);
+        setRowsData(results);
+      }
+    };
+
+    fetchCollections(api_requests);
+  }, []);
 
   return (
     <main>
-      <Banner fetchURI={fetchNetflixOriginals} />
-      <div className="all_rows__container">
-        <ItemsRow
-          title="NETFLIX ORIGINALS"
-          fetchURI={fetchNetflixOriginals}
-          isLarge
-        />
-        <ItemsRow
-          title="Bollywood Movies"
-          fetchURI={fetchIndianMovies}
-          isLarge
-        />
-        <ItemsRow title="Trending Now" fetchURI={fetchTrending} />
-        <ItemsRow title="Upcoming Movies" fetchURI={fetchUpcoming} />
-        <ItemsRow title="Top Rated" fetchURI={fetchTopRated} />
-        <ItemsRow title="Action Movies" fetchURI={fetchActionMovies} />
-        <ItemsRow title="Comedies" fetchURI={fetchComedyMovies} />
-        <ItemsRow title="Science Fiction" fetchURI={fetchSciFi} />
-        <ItemsRow title="Romantic Movies" fetchURI={fetchRomanceMovies} />
-        <ItemsRow title="Animation Movies" fetchURI={fetchAnimation} />
-        <ItemsRow title="Horror Movies" fetchURI={fetchHorrorMovies} />
-        {/* 
-        <ItemsRow
-          title="Documentories"
-          fetchURI={fetchDocumantaries}
-        />
-        <ItemsRow title="TV Shows" fetchURI={fetchTV} />
-        <ItemsRow title="Mystery" fetchURI={fetchMystery} />
-        <ItemsRow title="Western" fetchURI={fetchWestern} />
-         */}
-      </div>
+      {rowsData?.length > 0 ? (
+        <div className="">
+          {/* Home Banner */}
+          {rowsData && rowsData[0] && rowsData[0]["data"]?.length > 0 && (
+            <Banner bannerData={rowsData[0]["data"][Math.floor(Math.random() * 6) + 1]} />
+          )}
+
+          {/* Collection Rows */}
+          <div className="all_rows__container">
+            {[...rowsData].map((row, index) => {
+              return (
+                <ItemsRow
+                  key={row?.id}
+                  id={row?.id}
+                  title={row?.title}
+                  data={row?.data}
+                  callPos={index}
+                  isLarge={row?.id === "fetchNetflixOriginals" || row?.id === "fetchIndianMovies" ? true : false}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
     </main>
   );
 };

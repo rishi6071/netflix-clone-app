@@ -19,7 +19,7 @@ const Collection = () => {
 
     const fetchData = async () => {
       await axios
-        .get(fetch_req)
+        .get(fetch_req?.url)
         .then((response) => {
           return response.data;
         })
@@ -56,8 +56,7 @@ const Collection = () => {
     <main>
       <div className="search__container">
         <p className="search__query">
-          <span>Collection for:</span>{" "}
-          <span>{GetCollectionHead(collection)}</span>
+          <span>Collection for:</span> <span>{GetCollectionHead(collection)}</span>
         </p>
 
         {/* Collection Items */}
