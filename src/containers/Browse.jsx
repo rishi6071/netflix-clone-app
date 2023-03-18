@@ -53,14 +53,14 @@ const Browse = () => {
 
           {/* Collection Rows */}
           <div className="all_rows__container">
-            {[...rowsData].map((row, index) => {
+            {[...rowsData].map((row, idx) => {
               return (
                 <ItemsRow
                   key={row?.id}
                   id={row?.id}
                   title={row?.title}
                   data={row?.data}
-                  callPos={index}
+                  callPos={idx}
                   isLarge={row?.id === "fetchNetflixOriginals" || row?.id === "fetchIndianMovies" ? true : false}
                 />
               );
@@ -68,7 +68,9 @@ const Browse = () => {
           </div>
         </div>
       ) : (
-        <Loader />
+        <div className="py-5">
+          <Loader />
+        </div>
       )}
     </main>
   );

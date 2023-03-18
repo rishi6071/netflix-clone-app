@@ -21,7 +21,9 @@ const ItemsRow = ({ id: collection_name, title, data: movies, isLarge, noTitle, 
           )}
 
           <div className="container-fluid items__box">
-            {[...movies].map((movie) => {
+            {[...movies].map((movie, idx) => {
+              if (idx > 11) return "";
+
               if ((isLarge && movie.poster_path) || (!isLarge && movie.backdrop_path))
                 return (
                   <img

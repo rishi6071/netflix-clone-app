@@ -196,9 +196,9 @@ const ItemDetails = () => {
             <div className="itemdetails__content__box">
               <div className="itemdetails__title__rating__box">
                 <h2 className="itemdetails__title">{movie?.title || movie?.original_title}</h2>
-                <h5 className="itemdetails__rating">
+                <h6 className="itemdetails__rating">
                   <span>{movie?.vote_average}</span> <i className="bx bxs-star"></i>
-                </h5>
+                </h6>
               </div>
 
               <div className="itemdetails__meta__info">

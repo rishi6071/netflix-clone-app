@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../App.css";
 
+// Helpers
+import { removeLocalStorage } from "../lib/localStorage";
+
 // Media
 import Netflix from "../media/Icons/brand.png";
 import Avatar from "../media/Icons/avatar.png";
@@ -49,27 +52,24 @@ const Navbar = () => {
     }
   };
 
+  const handleLogout = () => {
+    if (pathname === "/") return;
+    removeLocalStorage("user");
+    navigate("/");
+  };
+
   return (
     <header>
       {/* Navbar */}
-      <nav
-        className={`navbar navbar-expand-md px-sm-3 px-1 ${showBg && "showBg"}`}
-      >
+      <nav className={`navbar navbar-expand-md px-sm-3 px-1 ${showBg && "showBg"}`}>
         <div className="container-fluid">
-          <NavLink
-            to={pathname === "/" ? "/" : "/browse"}
-            className="navbar-brand brand__logo"
-          >
+          <NavLink to={pathname === "/" ? "/" : "/browse"} className="navbar-brand brand__logo">
             <img src={Netflix} alt="Netflix-Brand" />
           </NavLink>
 
           <div className="navbar__button__box">
             {pathname !== "/" && (
-              <button
-                type="button"
-                className="search__button"
-                onClick={ToggleSearch}
-              >
+              <button type="button" className="search__button" onClick={ToggleSearch}>
                 <i className="bx bx-search-alt"></i>
               </button>
             )}
@@ -93,20 +93,14 @@ const Navbar = () => {
                   <li className="nav-item ms-md-4 ms-2">
                     <NavLink
                       to="/browse"
-                      className={`nav-link ${
-                        pathname.startsWith("/browse") ? "active__navlink" : ""
-                      }`}
+                      className={`nav-link ${pathname.startsWith("/browse") ? "active__navlink" : ""}`}
                       aria-current="page"
                     >
                       Browse
                     </NavLink>
                   </li>
                   <li className="nav-item ms-md-4 ms-2">
-                    <NavLink
-                      to="/browse"
-                      className="nav-link"
-                      aria-current="page"
-                    >
+                    <NavLink to="/browse" className="nav-link" aria-current="page">
                       My List
                     </NavLink>
                   </li>
@@ -125,9 +119,14 @@ const Navbar = () => {
             )}
             <ul className={`navbar-nav ${pathname === "/" ? "ms-auto" : ""}`}>
               <li className="nav-item">
-                <NavLink to="/" className="navbar-brand avatar__logo">
-                  <img src={Avatar} alt="Netflix-Brand" />
-                </NavLink>
+                <div className="navbar-brand avatar__logo">
+                  <img
+                    src={Avatar}
+                    alt="Netflix-Brand"
+                    title={`${pathname === "/" ? "" : "Logout"}`}
+                    onClick={handleLogout}
+                  />
+                </div>
               </li>
             </ul>
           </div>
@@ -135,11 +134,7 @@ const Navbar = () => {
 
         {showSearch && (
           <div className="container-fluid mt-3 pb-2 d-flex justify-content-center">
-            <form
-              className="d-flex justify-content-center"
-              onSubmit={SubmitSearch}
-              name="toggle__search__form"
-            >
+            <form className="d-flex justify-content-center" onSubmit={SubmitSearch} name="toggle__search__form">
               <input
                 className="form-control me-2"
                 style={{ width: "84vw" }}
@@ -165,22 +160,14 @@ const Navbar = () => {
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             <img src={Netflix} alt="Netflix-Brand" />
           </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          >
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
             <i className="bx bx-x"></i>
           </button>
         </div>
         <div className="offcanvas-body">
           {pathname !== "/" ? (
             <>
-              <form
-                className="d-flex justify-content-center"
-                onSubmit={SubmitSearch}
-              >
+              <form className="d-flex justify-content-center" onSubmit={SubmitSearch}>
                 <input
                   className="form-control me-2"
                   type="search"
@@ -195,29 +182,19 @@ const Navbar = () => {
                 <li className="list-group-item">
                   <NavLink
                     to="/browse"
-                    className={`nav-link ${
-                      pathname.startsWith("/browse") ? "active__navlink" : ""
-                    }`}
+                    className={`nav-link ${pathname.startsWith("/browse") ? "active__navlink" : ""}`}
                     data-bs-dismiss="offcanvas"
                   >
                     Browse
                   </NavLink>
                 </li>
                 <li className="list-group-item">
-                  <NavLink
-                    to="/"
-                    className={`nav-link`}
-                    data-bs-dismiss="offcanvas"
-                  >
+                  <NavLink to="/" className={`nav-link`} data-bs-dismiss="offcanvas">
                     My List
                   </NavLink>
                 </li>
                 <li className="list-group-item mt-2">
-                  <NavLink
-                    to="/"
-                    className="navbar-brand avatar__logo"
-                    data-bs-dismiss="offcanvas"
-                  >
+                  <NavLink to="/" className="navbar-brand avatar__logo" data-bs-dismiss="offcanvas">
                     <img src={Avatar} alt="Netflix-Brand" />
                   </NavLink>
                 </li>
@@ -229,11 +206,7 @@ const Navbar = () => {
                 Enter your Email Address... <br />
                 And Get Started with the World's No. 1 Leading OTT Platform
               </p>
-              <button
-                type="button"
-                className="btn instruction__button"
-                data-bs-dismiss="offcanvas"
-              >
+              <button type="button" className="btn instruction__button" data-bs-dismiss="offcanvas">
                 Home
               </button>
             </div>
