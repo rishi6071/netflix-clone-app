@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
 import axios from "../lib/axios";
-import requests from "../lib/request";
 
+// requests
+import requests from "../lib/request";
 import ItemsGrid from "../components/ItemsGrid";
 
 const Collection = () => {
@@ -16,7 +17,6 @@ const Collection = () => {
 
   useEffect(() => {
     const fetch_req = requests(currentPage)[`${collection}`];
-
     const fetchData = async () => {
       await axios
         .get(fetch_req?.url)
@@ -28,12 +28,12 @@ const Collection = () => {
           setSearchItems((prevState) => [...prevState, ...res.results]);
           return res;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
     };
     fetchData();
-  }, [collection, currentPage]);
+  }, [collection, currentPage, requests]);
 
   const HandleLoadMore = () => {
     setCurrentPage((prevState) => {

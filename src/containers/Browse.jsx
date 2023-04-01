@@ -54,6 +54,9 @@ const Browse = () => {
           {/* Collection Rows */}
           <div className="all_rows__container">
             {[...rowsData].map((row, idx) => {
+              // show only 10 collections
+              if (idx >= 10) return "";
+
               return (
                 <ItemsRow
                   key={row?.id}

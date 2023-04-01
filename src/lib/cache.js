@@ -1,11 +1,11 @@
-export const setLocalStorage = (key, value) => {
+export const setInCache = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const getLocalStorage = (key) => {
+export const getFromCache = (key) => {
   return JSON.parse(localStorage.getItem(key));
 };
 
-export const removeLocalStorage = (key) => {
+export const removeFromCache = (key) => {
   localStorage.removeItem(key);
 };

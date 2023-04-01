@@ -406,6 +406,30 @@ main {
   padding-top: 30px;
 }
 
+/* ======== CollectionsList.jsx ======== */
+.collections__box .collection__item {
+  padding: 1.5rem 1rem;
+  background-color: rgb(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 2px #ffffff42;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: lightgrey;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.collections__box .collection__item:hover {
+  background: #d1000e;
+  color: #fff;
+  transform: translateY(-5px);
+}
+
 /* ======== Banner.jsx ======== */
 .banner__container {
   object-fit: contain;
@@ -719,9 +743,9 @@ main {
   color: #fff;
   letter-spacing: 1px;
   background: #015201;
-  padding: 5px 0px 5px 6px;
+  padding: 5px 0px 5px 8px;
   border-radius: 5px;
-  width: 90px;
+  width: 85px;
   text-align: center;
 }
 
@@ -914,6 +938,7 @@ main {
   object-fit: cover;
   transition: all 0.4s;
   border-radius: 4px;
+  cursor: zoom-in;
 }
 
 .movie__screenshots__box img.screenshot__item:hover {
@@ -922,7 +947,8 @@ main {
 }
 
 .movie__screenshots__box #screenshotModal {
-  background: rgb(0, 0, 0, 0.5);
+  background: rgb(0, 0, 0, 0.7);
+  cursor: zoom-out;
 }
 
 .movie__screenshots__box #screenshotModal .modal-header {
@@ -952,6 +978,7 @@ main {
   width: 100%;
   height: auto;
   object-fit: cover;
+  cursor: default;
 }
 
 .related__title,

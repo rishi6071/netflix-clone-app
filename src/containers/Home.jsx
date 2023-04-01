@@ -4,7 +4,7 @@ import "../App.css";
 
 // Helpers
 import { faqs } from "../lib/request";
-import { getLocalStorage, setLocalStorage } from "../lib/localStorage";
+import { getFromCache, setInCache } from "../lib/cache";
 
 // Icons & Media
 import HomeBanner from "../media/Banners/home_banner.png";
@@ -19,14 +19,14 @@ const Home = () => {
 
   // user already present then redirect to /browse
   useEffect(() => {
-    const user = getLocalStorage("user") || "";
+    const user = getFromCache("user") || "";
     if (user) navigate("/browse");
   }, [navigate]);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const NavigateToBrowse = (e) => {
     e.preventDefault();
-    setLocalStorage("user", email);
+    setInCache("user", email);
     navigate("/browse");
   };
 

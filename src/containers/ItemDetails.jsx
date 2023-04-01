@@ -204,7 +204,7 @@ const ItemDetails = () => {
               <div className="itemdetails__title__rating__box">
                 <h2 className="itemdetails__title">{movie?.title || movie?.original_title}</h2>
                 <h6 className="itemdetails__rating">
-                  <span>{movie?.vote_average}</span> <i className="bx bxs-star"></i>
+                  <span>{movie?.vote_average?.toFixed(1)}</span> <i className="bx bxs-star"></i>
                 </h6>
               </div>
 
@@ -511,7 +511,7 @@ const MovieScreenshots = ({ data }) => {
           <div
             className="modal fade"
             id="screenshotModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-labelledby="screenshotLabel"
             aria-hidden="true"
           >
@@ -522,7 +522,7 @@ const MovieScreenshots = ({ data }) => {
             <div className="modal-dialog modal-lg modal-dialog-centered">
               <div className="modal-content">
                 <div className="modal-body">
-                  <img src={modalImgURL} alt="Screenshot Modal Image" />
+                  <img src={modalImgURL} alt="Screenshot Modal" />
                 </div>
               </div>
             </div>

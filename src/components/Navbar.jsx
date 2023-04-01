@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../App.css";
 
 // Helpers
-import { removeLocalStorage } from "../lib/localStorage";
+import { removeFromCache } from "../lib/cache";
 
 // Media
 import Netflix from "../media/Icons/brand.png";
@@ -54,7 +54,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     if (pathname === "/") return;
-    removeLocalStorage("user");
+    removeFromCache("user");
     navigate("/");
   };
 
@@ -101,8 +101,8 @@ const Navbar = () => {
                   </li>
                   <li className="nav-item ms-md-4 ms-2">
                     <NavLink
-                      to="/browse"
-                      className={`nav-link ${pathname.startsWith("/browse") ? "active__navlink" : ""}`}
+                      to="/collections"
+                      className={`nav-link ${pathname.startsWith("/collections") ? "active__navlink" : ""}`}
                       aria-current="page"
                     >
                       Collections
@@ -195,6 +195,15 @@ const Navbar = () => {
                     data-bs-dismiss="offcanvas"
                   >
                     Browse
+                  </NavLink>
+                </li>
+                <li className="list-group-item">
+                  <NavLink
+                    to="/collections"
+                    className={`nav-link ${pathname.startsWith("/collections") ? "active__navlink" : ""}`}
+                    data-bs-dismiss="offcanvas"
+                  >
+                    Collections
                   </NavLink>
                 </li>
                 <li className="list-group-item">

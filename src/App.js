@@ -8,6 +8,7 @@ import Home from "./containers/Home";
 import Browse from "./containers/Browse";
 import ItemDetails from "./containers/ItemDetails";
 import Search from "./containers/Search";
+import CollectionsList from "./containers/CollectionsList";
 import Collection from "./containers/Collection";
 
 export const STATUSES = {
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/item/:id" element={<ItemDetails />} />
           <Route path="/search/:query" element={<Search />} />
           <Route path="/collection/:collection" element={<Collection />} />
+          <Route path="/collections" element={<CollectionsList />} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>
