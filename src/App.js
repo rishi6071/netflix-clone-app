@@ -10,6 +10,12 @@ import ItemDetails from "./containers/ItemDetails";
 import Search from "./containers/Search";
 import Collection from "./containers/Collection";
 
+export const STATUSES = {
+  IDLE: "idle",
+  LOADING: "loading",
+  ERROR: "error",
+};
+
 const App = () => {
   return (
     <React.Fragment>

@@ -100,6 +100,15 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item ms-md-4 ms-2">
+                    <NavLink
+                      to="/browse"
+                      className={`nav-link ${pathname.startsWith("/browse") ? "active__navlink" : ""}`}
+                      aria-current="page"
+                    >
+                      Collections
+                    </NavLink>
+                  </li>
+                  <li className="nav-item ms-md-4 ms-2">
                     <NavLink to="/browse" className="nav-link" aria-current="page">
                       My List
                     </NavLink>

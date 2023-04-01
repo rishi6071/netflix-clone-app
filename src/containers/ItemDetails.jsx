@@ -11,6 +11,7 @@ import { item_requests } from "../lib/request";
 import ItemsRow from "../components/ItemsRow";
 import NotFound from "../components/NotFound";
 import Loader from "../components/Loader";
+import { STATUSES } from "../App";
 
 const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
@@ -22,7 +23,7 @@ const ItemDetails = () => {
   const [watchProviders, setWatchProviders] = useState([]);
   const [screenshots, setScreenshots] = useState([]);
   const [credits, setCredits] = useState([]);
-  const [showTrailer, setShowTrailer] = useState(false);
+  const [isTrailerLoading, setIsTrailerLoading] = useState(STATUSES.IDLE);
   const [trailerURL, setTrailerURL] = useState("");
   const [currentSection, setCurrentSection] = useState("overview");
   const [relatedMovies, setRelatedMovies] = useState([]);
@@ -43,7 +44,7 @@ const ItemDetails = () => {
         .get(fetchDetails)
         .then((res) => {
           setMovie(res.data);
-          setTrailerURL(res.data.name || res.data.title || "");
+          // setTrailerURL(res.data.name || res.data.title || "");
           return res;
         })
         .catch((error) => {
@@ -95,11 +96,10 @@ const ItemDetails = () => {
 
     // Fetch Item Videos/Trailer
     const fetchTrailer = async () => {
-      setShowTrailer(false);
+      setIsTrailerLoading(STATUSES.LOADING);
       await axios
         .get(fetchVideos)
         .then((res) => {
-          console.log(res);
           return res.data.results;
         })
         .then((res) => {
@@ -109,7 +109,11 @@ const ItemDetails = () => {
 
             for (let video of res) {
               if (video.key && video.official) backup = video;
-              if (video.key && video.official && video.type === "Trailer") {
+              if (
+                video.key &&
+                video.type === "Trailer" &&
+                (video.official || video.name.includes("Official Trailer"))
+              ) {
                 setTrailerURL(video);
                 flag = true;
                 break;
@@ -117,10 +121,13 @@ const ItemDetails = () => {
             }
 
             if (!flag) setTrailerURL(backup);
+            setIsTrailerLoading(STATUSES.IDLE);
+          } else {
+            setIsTrailerLoading(STATUSES.ERROR);
           }
-          setShowTrailer(true);
         })
         .catch((error) => {
+          setIsTrailerLoading(STATUSES.ERROR);
           console.log(error);
         });
     };
@@ -287,10 +294,17 @@ const ItemDetails = () => {
                   ) : currentSection === "trailers" ? (
                     <section>
                       {/* TRAILERS & MORE SECTION */}
-                      {showTrailer && trailerURL ? (
+                      {isTrailerLoading === STATUSES.LOADING ? (
+                        <Loader />
+                      ) : isTrailerLoading === STATUSES.IDLE ? (
                         <YouTube videoId={trailerURL?.key} opts={opts} title={trailerURL?.name} />
                       ) : (
-                        <Loader />
+                        <div className="h-100 d-flex justify-content-center align-items-center">
+                          <div className="d-flex align-items-center gap-2 text-white-50">
+                            <i style={{ fontSize: "25px" }} className="bx bx-error-circle"></i>
+                            <h6 style={{ transform: "translateY(2px)" }}>No Trailer Found!</h6>
+                          </div>
+                        </div>
                       )}
                     </section>
                   ) : (
@@ -443,6 +457,7 @@ const WatchProviders = ({ data }) => {
 
 const MovieScreenshots = ({ data }) => {
   const [hasImages, setHasImages] = useState(false);
+  const [modalImgURL, setModalImgURL] = useState("");
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -475,14 +490,41 @@ const MovieScreenshots = ({ data }) => {
                     <div className="col-lg-4 col-sm-6 col-12 mt-4" key={`screenshot_${idx}_${img.height}`}>
                       <img
                         src={`${BASE_IMG_URI}${img.file_path}`}
+                        className="screenshot__item"
                         referrerPolicy="no-referrer"
                         alt={`Screenshot_${idx + 1}`}
+                        data-bs-toggle="modal"
+                        data-bs-target="#screenshotModal"
+                        onClick={() => {
+                          setModalImgURL(`${BASE_IMG_URI}${img.file_path}`);
+                        }}
                         loading="lazy"
                       />
                     </div>
                   );
                 else return <div key={idx}></div>;
               })}
+            </div>
+          </div>
+
+          {/* Modal */}
+          <div
+            className="modal fade"
+            id="screenshotModal"
+            tabindex="-1"
+            aria-labelledby="screenshotLabel"
+            aria-hidden="true"
+          >
+            <button type="button" className="close__btn" data-bs-dismiss="modal" aria-label="Close">
+              X
+            </button>
+
+            <div className="modal-dialog modal-lg modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-body">
+                  <img src={modalImgURL} alt="Screenshot Modal Image" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

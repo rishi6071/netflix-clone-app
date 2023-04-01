@@ -48,6 +48,11 @@ const requests = (page_num) => {
       title: "Science Fiction",
       url: `/discover/movie?api_key=${API_KEY}&with_genres=878&page=${page_num}`,
     },
+    fetchAnimation: {
+      id: "fetchAnimation",
+      title: "Animation Movies",
+      url: `/discover/movie?api_key=${API_KEY}&with_genres=16&page=${page_num}`,
+    },
     // fetchRomanceMovies: {
     //   id: "fetchRomanceMovies",
     //   title: "Romantic Movies",
@@ -68,11 +73,6 @@ const requests = (page_num) => {
     //   title: "Western",
     //   url: `/discover/movie?api_key=${API_KEY}&with_genres=37&page=${page_num}`,
     // },
-    fetchAnimation: {
-      id: "fetchAnimation",
-      title: "Animation Movies",
-      url: `/discover/movie?api_key=${API_KEY}&with_genres=16&page=${page_num}`,
-    },
     // fetchTV: {
     //   id: "fetchTV",
     //   title: "TV Shows",
