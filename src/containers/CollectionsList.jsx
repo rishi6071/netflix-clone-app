@@ -17,22 +17,25 @@ const CollectionsList = () => {
     }
 
     setCollections([...arr]);
-  }, [requests]);
+  }, []);
 
   return (
     <main>
       <div className="container pt-5 collections__box">
-        <div className="row pt-5 gx-xl-4 gx-3">
+        <div className="row gx-xl-4 gx-3 pt-sm-5 pt-4">
           {[...collections].map((collection, idx) => {
             return (
               <div
-                className="col-lg-3 col-md-4 col-6 mb-4"
+                className="col-lg-4 col-sm-6 col-12 mb-sm-3 mb-2"
                 key={`collection_${idx + 1}`}
                 onClick={() => {
                   navigate(`/collection/${collection.id}`);
                 }}
               >
-                <div className="collection__item">{collection?.genre}</div>
+                <div className="collection__item">
+                  <img src={collection?.img} alt={collection.id} />
+                  <h6>{collection?.genre}</h6>
+                </div>
               </div>
             );
           })}

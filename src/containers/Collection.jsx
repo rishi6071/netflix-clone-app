@@ -33,7 +33,7 @@ const Collection = () => {
         });
     };
     fetchData();
-  }, [collection, currentPage, requests]);
+  }, [collection, currentPage]);
 
   const HandleLoadMore = () => {
     setCurrentPage((prevState) => {

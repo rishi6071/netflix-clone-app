@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fredoka&family=Nunito&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 
 /*
   font-family: "Roboto", sans-serif;
@@ -10,6 +11,7 @@
   font-family: 'Fredoka', sans-serif;
   font-family: 'Nunito', sans-serif;
   font-family: 'Poppins', sans-serif;
+  font-family: 'Merriweather', serif;
 */
 
 body {

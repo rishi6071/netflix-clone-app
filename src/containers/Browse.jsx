@@ -9,6 +9,7 @@ import ItemsRow from "../components/ItemsRow";
 
 // requests
 import requests from "../lib/request";
+import { getFromCache, setInCache } from "../lib/cache";
 
 const Browse = () => {
   const [rowsData, setRowsData] = useState([]);
@@ -19,6 +20,13 @@ const Browse = () => {
     const api_requests = requests(randomPageNo);
 
     const fetchCollections = async (api_requests) => {
+      // already in cache
+      const cache_data = getFromCache("homepage");
+      if (cache_data) {
+        setRowsData(cache_data);
+        return;
+      }
+
       if (Object.keys(api_requests)?.length > 0) {
         // request with api-result
         const results = [];
@@ -34,9 +42,11 @@ const Browse = () => {
         for (let i = 0; i < results.length; i++) {
           results[i]["data"] = values[i]?.data?.results;
         }
-        // console.log(results);
+
+        setInCache("homepage", results);
         setRowsData(results);
       }
+
     };
 
     fetchCollections(api_requests);
