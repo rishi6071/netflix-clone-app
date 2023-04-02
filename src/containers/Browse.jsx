@@ -16,6 +16,9 @@ const Browse = () => {
 
   // fetch all collections including banner
   useEffect(() => {
+    // set the document's title
+    document.title = "Home | Netflix Clone";
+
     const randomPageNo = Math.floor(Math.random() * 5 + 1);
     const api_requests = requests(randomPageNo);
 

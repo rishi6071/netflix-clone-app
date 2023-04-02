@@ -191,15 +191,15 @@ const requests = (page_num = 1) => {
 };
 
 // APIs using to fetch the Item Details & Similar Content
-const item_requests = (id) => {
+const item_requests = (id, media_type = "movie") => {
   const API_KEY = process.env.REACT_APP_PUBLIC_KEY;
   return {
-    fetchDetails: `/movie/${id}?api_key=${API_KEY}`,
-    fetchImages: `/movie/${id}/images?api_key=${API_KEY}`,
-    fetchVideos: `/movie/${id}/videos?api_key=${API_KEY}`,
-    fetchSimilarMovies: `/movie/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`,
-    fetchWatchProviders: `/movie/${id}/watch/providers?api_key=${API_KEY}`,
-    fetchCredits: `/movie/${id}/credits?api_key=${API_KEY}`,
+    fetchDetails: `/${media_type}/${id}?api_key=${API_KEY}`,
+    fetchImages: `/${media_type}/${id}/images?api_key=${API_KEY}`,
+    fetchVideos: `/${media_type}/${id}/videos?api_key=${API_KEY}`,
+    fetchSimilarMovies: `/${media_type}/${id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`,
+    fetchWatchProviders: `/${media_type}/${id}/watch/providers?api_key=${API_KEY}`,
+    fetchCredits: `/${media_type}/${id}/credits?api_key=${API_KEY}`,
   };
 };
 
@@ -207,7 +207,7 @@ const item_requests = (id) => {
 const search_requests = (query, page_num) => {
   const API_KEY = process.env.REACT_APP_PUBLIC_KEY;
   return {
-    fetchSearch: `/search/multi?api_key=${API_KEY}&query=${query}&page=${page_num}`,
+    fetchSearch: `/search/movie?api_key=${API_KEY}&query=${query}&page=${page_num}`,
   };
 };
 

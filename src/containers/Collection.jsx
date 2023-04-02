@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
-import axios from "../lib/axios";
+
+import { STATUSES } from "../App";
+import Loader from "../components/Loader";
+import ItemsGrid from "../components/ItemsGrid";
 
 // requests
 import requests from "../lib/request";
-import ItemsGrid from "../components/ItemsGrid";
+import axios from "../lib/axios";
 
 const Collection = () => {
   const navigate = useNavigate();
@@ -14,10 +17,15 @@ const Collection = () => {
   const [searchItems, setSearchItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [isCollectionLoading, setIsCollectionLoading] = useState(STATUSES.IDLE);
 
   useEffect(() => {
     const fetch_req = requests(currentPage)[`${collection}`];
+    document.title = `${fetch_req?.title || "Collection"} | Netflix Clone`;
+
     const fetchData = async () => {
+      setIsCollectionLoading(STATUSES.LOADING);
+
       await axios
         .get(fetch_req?.url)
         .then((response) => {
@@ -26,9 +34,14 @@ const Collection = () => {
         .then((res) => {
           setTotalPages(res.total_pages);
           setSearchItems((prevState) => [...prevState, ...res.results]);
+
+          setTimeout(() => {
+            setIsCollectionLoading(STATUSES.IDLE);
+          }, 500);
           return res;
         })
         .catch((err) => {
+          setIsCollectionLoading(STATUSES.ERROR);
           console.log(err);
         });
     };
@@ -59,15 +72,23 @@ const Collection = () => {
           <span>Collection for:</span> <span>{GetCollectionHead(collection)}</span>
         </p>
 
-        {/* Collection Items */}
-        <ItemsGrid searchItems={searchItems} NavigateToItem={NavigateToItem} />
+        {isCollectionLoading !== STATUSES.LOADING ? (
+          <>
+            {/* Collection Items */}
+            <ItemsGrid searchItems={searchItems} NavigateToItem={NavigateToItem} />
 
-        {/* Pagination LOAD MORE */}
-        {currentPage < totalPages && (
-          <div className="load__more__box">
-            <button type="button" className="btn" onClick={HandleLoadMore}>
-              <span>LOAD MORE</span> <i className="bx bx-loader-circle"></i>
-            </button>
+            {/* Pagination LOAD MORE */}
+            {currentPage < totalPages && (
+              <div className="load__more__box">
+                <button type="button" className="btn" onClick={HandleLoadMore}>
+                  <span>LOAD MORE</span> <i className="bx bx-loader-circle"></i>
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="py-5">
+            <Loader />
           </div>
         )}
       </div>

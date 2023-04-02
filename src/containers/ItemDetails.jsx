@@ -43,8 +43,8 @@ const ItemDetails = () => {
       await axios
         .get(fetchDetails)
         .then((res) => {
+          document.title = `${res.data?.name || res.data?.title || "Item Details"} | Netflix Clone`;
           setMovie(res.data);
-          // setTrailerURL(res.data.name || res.data.title || "");
           return res;
         })
         .catch((error) => {

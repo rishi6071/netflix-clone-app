@@ -10,6 +10,7 @@ const CollectionsList = () => {
 
   useEffect(() => {
     const collections_obj = requests();
+    document.title = "Collections | Netflix Clone";
 
     const arr = [];
     for (let col in collections_obj) {
