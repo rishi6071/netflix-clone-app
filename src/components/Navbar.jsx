@@ -16,12 +16,6 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showBg, setShowBg] = useState(false);
   const [query, setQuery] = useState("");
-  const [language, setLanguage] = useState("en");
-
-  useEffect(() => {
-    const lang = getFromCache("language");
-    if (lang) setLanguage(lang);
-  }, []);
 
   useEffect(() => {
     const scrollFun = () => {
@@ -134,28 +128,7 @@ const Navbar = () => {
             )}
             <ul className={`navbar-nav ${pathname === "/" ? "ms-auto" : ""}`}>
               <li className={`nav-item ${pathname !== "/" ? "d-none" : ""}`}>
-                <div className="input-group mb-3 languages__dropdown">
-                  <span className="input-group-text" id="lang_options">
-                    <i className="bx bx-globe"></i>
-                  </span>
-                  <select
-                    name="languages"
-                    id="languages"
-                    aria-label="languages"
-                    aria-describedby="lang_options"
-                    value={language}
-                    onChange={(e) => {
-                      removeFromCache("homepage");
-                      setLanguage(e.target.value);
-                      setInCache("language", e.target.value);
-                    }}
-                  >
-                    <option value="en">English</option>
-                    <option value="hi">Hindi</option>
-                    <option value="fr">French</option>
-                    <option value="ja">Japanese</option>
-                  </select>
-                </div>
+                <LanguageDropdown />
               </li>
               <li className="nav-item">
                 <div className="navbar-brand avatar__logo">
@@ -242,9 +215,9 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li className="list-group-item mt-2">
-                  <NavLink to="/" className="navbar-brand avatar__logo" data-bs-dismiss="offcanvas">
-                    <img src={Avatar} alt="Netflix-Brand" />
-                  </NavLink>
+                  <div className="navbar-brand avatar__logo">
+                    <img src={Avatar} alt="Netflix-Brand-Mobile" onClick={handleLogout} />
+                  </div>
                 </li>
               </ul>
             </>
@@ -257,11 +230,48 @@ const Navbar = () => {
               <button type="button" className="btn instruction__button" data-bs-dismiss="offcanvas">
                 Home
               </button>
+              <div className="mx-auto mt-2">
+                <LanguageDropdown />
+              </div>
             </div>
           )}
         </div>
       </div>
     </header>
+  );
+};
+
+const LanguageDropdown = () => {
+  const [language, setLanguage] = useState(() => "en");
+
+  useEffect(() => {
+    const lang = getFromCache("language");
+    if (lang) setLanguage(lang);
+  }, []);
+
+  return (
+    <div className="input-group mb-3 languages__dropdown">
+      <span className="input-group-text" id="lang_options">
+        <i className="bx bx-globe"></i>
+      </span>
+      <select
+        name="languages"
+        id="languages"
+        aria-label="languages"
+        aria-describedby="lang_options"
+        value={language}
+        onChange={(e) => {
+          removeFromCache("homepage");
+          setLanguage(e.target.value);
+          setInCache("language", e.target.value);
+        }}
+      >
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+        <option value="fr">French</option>
+        <option value="ja">Japanese</option>
+      </select>
+    </div>
   );
 };
 

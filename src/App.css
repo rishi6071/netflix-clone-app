@@ -61,7 +61,7 @@ main {
   color: #ffffffe6 !important;
 }
 
-.navbar .languages__dropdown {
+.languages__dropdown {
   transform: translate(-5px, 8px);
   background: #000;
   border: 1px solid #ffffff49;
@@ -69,14 +69,14 @@ main {
   padding: 2px 5px 3px 5px;
 }
 
-.navbar .languages__dropdown .input-group-text,
-.navbar .languages__dropdown select {
+.languages__dropdown .input-group-text,
+.languages__dropdown select {
   background: transparent;
   color: #fff;
   border: none;
 }
 
-.navbar .languages__dropdown .input-group-text {
+.languages__dropdown .input-group-text {
   transform: translateY(1px);
   padding: 0 3px 0 5px;
   border-radius: 0;
@@ -84,11 +84,11 @@ main {
   border-bottom-left-radius: 5px;
 }
 
-.navbar .languages__dropdown select:focus {
+.languages__dropdown select:focus {
   outline: none;
 }
 
-.navbar .languages__dropdown select option {
+.languages__dropdown select option {
   background: #000;
   color: #fff;
 }
