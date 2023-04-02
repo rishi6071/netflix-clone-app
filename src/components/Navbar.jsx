@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../App.css";
 
 // Helpers
-import { removeFromCache } from "../lib/cache";
+import { getFromCache, removeFromCache, setInCache } from "../lib/cache";
 
 // Media
 import Netflix from "../media/Icons/brand.png";
@@ -16,6 +16,12 @@ const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showBg, setShowBg] = useState(false);
   const [query, setQuery] = useState("");
+  const [language, setLanguage] = useState("en");
+
+  useEffect(() => {
+    const lang = getFromCache("language");
+    if (lang) setLanguage(lang);
+  }, []);
 
   useEffect(() => {
     const scrollFun = () => {
@@ -127,6 +133,30 @@ const Navbar = () => {
               </>
             )}
             <ul className={`navbar-nav ${pathname === "/" ? "ms-auto" : ""}`}>
+              <li className={`nav-item ${pathname !== "/" ? "d-none" : ""}`}>
+                <div className="input-group mb-3 languages__dropdown">
+                  <span className="input-group-text" id="lang_options">
+                    <i className="bx bx-globe"></i>
+                  </span>
+                  <select
+                    name="languages"
+                    id="languages"
+                    aria-label="languages"
+                    aria-describedby="lang_options"
+                    value={language}
+                    onChange={(e) => {
+                      removeFromCache("homepage");
+                      setLanguage(e.target.value);
+                      setInCache("language", e.target.value);
+                    }}
+                  >
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="fr">French</option>
+                    <option value="ja">Japanese</option>
+                  </select>
+                </div>
+              </li>
               <li className="nav-item">
                 <div className="navbar-brand avatar__logo">
                   <img

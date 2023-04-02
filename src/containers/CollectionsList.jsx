@@ -13,7 +13,9 @@ const CollectionsList = () => {
 
     const arr = [];
     for (let col in collections_obj) {
-      if (collections_obj[col].hasOwnProperty("genre")) arr.push(collections_obj[col]);
+      if (collections_obj[col].hasOwnProperty("genre")) {
+        arr.push(collections_obj[col]);
+      }
     }
 
     setCollections([...arr]);
@@ -33,7 +35,7 @@ const CollectionsList = () => {
                 }}
               >
                 <div className="collection__item">
-                  <img src={collection?.img} alt={collection.id} />
+                  <img src={collection?.img} alt={collection.id} loading="eager" />
                   <h6>{collection?.genre}</h6>
                 </div>
               </div>

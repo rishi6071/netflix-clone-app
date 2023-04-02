@@ -61,13 +61,45 @@ main {
   color: #ffffffe6 !important;
 }
 
+.navbar .languages__dropdown {
+  transform: translate(-5px, 8px);
+  background: #000;
+  border: 1px solid #ffffff49;
+  border-radius: 5px;
+  padding: 2px 5px 3px 5px;
+}
+
+.navbar .languages__dropdown .input-group-text,
+.navbar .languages__dropdown select {
+  background: transparent;
+  color: #fff;
+  border: none;
+}
+
+.navbar .languages__dropdown .input-group-text {
+  transform: translateY(1px);
+  padding: 0 3px 0 5px;
+  border-radius: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.navbar .languages__dropdown select:focus {
+  outline: none;
+}
+
+.navbar .languages__dropdown select option {
+  background: #000;
+  color: #fff;
+}
+
 .navbar input,
 .sidebar__menu input {
   background: transparent;
   border-radius: 1px;
   width: 250px;
   color: rgba(255, 255, 255, 0.842) !important;
-  border-color: rgba(255, 255, 255, 0.503) !important;
+  border-color: #ffffff49 !important;
 }
 
 .navbar input::placeholder,
