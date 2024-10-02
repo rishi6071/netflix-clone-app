@@ -29,14 +29,20 @@ const CollectionsList = () => {
           {[...collections].map((collection, idx) => {
             return (
               <div
-                className="col-lg-4 col-sm-6 col-12 mb-sm-3 mb-2"
+                className="col-lg-3 col-md-4 col-6 mb-sm-3 mb-2"
                 key={`collection_${idx + 1}`}
                 onClick={() => {
                   navigate(`/collection/${collection.id}`);
                 }}
               >
                 <div className="collection__item">
-                  <img src={collection?.img} alt={collection.id} loading="eager" />
+                  <div className="collection__img__wrapper">
+                    <img
+                      src={collection?.img}
+                      alt={collection.id}
+                      loading="eager"
+                    />
+                  </div>
                   <h6>{collection?.genre}</h6>
                 </div>
               </div>

@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
 import "../App.css";
 
 // Custom Components
 import Loader from "../components/Loader";
 import Banner from "../components/Banner";
-import ItemsRow from "../components/ItemsRow";
 
 // requests
 import requests from "../lib/request";
 import { getFromCache, setInCache } from "../lib/cache";
 
+const ItemsRow = lazy(() => import("../components/ItemsRow"));
+
 const Browse = () => {
+  const navigate = useNavigate();
+
   const [rowsData, setRowsData] = useState([]);
 
   // fetch all collections including banner
@@ -49,7 +53,6 @@ const Browse = () => {
         setInCache("homepage", results);
         setRowsData(results);
       }
-
     };
 
     fetchCollections(api_requests);
@@ -61,26 +64,43 @@ const Browse = () => {
         <div className="">
           {/* Home Banner */}
           {rowsData && rowsData[0] && rowsData[0]["data"]?.length > 0 && (
-            <Banner bannerData={rowsData[0]["data"][Math.floor(Math.random() * 6) + 1]} />
+            <Banner
+              bannerData={
+                rowsData[0]["data"][Math.floor(Math.random() * 6) + 1]
+              }
+            />
           )}
 
           {/* Collection Rows */}
           <div className="all_rows__container">
             {[...rowsData].map((row, idx) => {
-              // show only 11 collections
-              if (idx >= 11) return "";
+              // show only 8 collections
+              if (idx >= 8) return "";
 
               return (
-                <ItemsRow
-                  key={row?.id}
-                  id={row?.id}
-                  title={row?.title}
-                  data={row?.data}
-                  callPos={idx}
-                  isLarge={row?.id === "fetchNetflixOriginals" || row?.id === "fetchIndianMovies" ? true : false}
-                />
+                <Suspense fallback={<></>}>
+                  <ItemsRow
+                    key={row?.id}
+                    id={row?.id}
+                    title={row?.title}
+                    data={row?.data}
+                    callPos={idx}
+                    isLarge={
+                      row?.id === "fetchNetflixOriginals" ||
+                      row?.id === "fetchIndianMovies"
+                        ? true
+                        : false
+                    }
+                  />
+                </Suspense>
               );
             })}
+          </div>
+
+          <div className="more__collections">
+            <button type="button" onClick={() => navigate("/collections")}>
+              More Collections
+            </button>
           </div>
         </div>
       ) : (

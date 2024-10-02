@@ -16,13 +16,14 @@ const ItemsRow = ({ id: collection_name, title, data: movies, isLarge, noTitle, 
         <>
           {!noTitle && (
             <Link to={`/collection/${collection_name}`} className="item__row__header">
-              {title}
+              <span>{title}</span>
+              <i className='bx bx-link'></i>
             </Link>
           )}
 
           <div className="container-fluid items__box">
             {[...movies].map((movie, idx) => {
-              if (idx > 11) return "";
+              if (idx > 9) return "";
 
               if ((isLarge && movie.poster_path) || (!isLarge && movie.backdrop_path))
                 return (

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../App.css";
 
 import { STATUSES } from "../App";
 import Loader from "../components/Loader";
-import ItemsGrid from "../components/ItemsGrid";
 
 // requests
 import requests from "../lib/request";
 import axios from "../lib/axios";
+
+const ItemsGrid = lazy(() => import("../components/ItemsGrid"));
 
 const Collection = () => {
   const navigate = useNavigate();
@@ -69,13 +70,19 @@ const Collection = () => {
     <main>
       <div className="search__container">
         <p className="search__query">
-          <span>Collection for:</span> <span>{GetCollectionHead(collection)}</span>
+          <span>Collection for:</span>{" "}
+          <span>{GetCollectionHead(collection)}</span>
         </p>
 
         {isCollectionLoading !== STATUSES.LOADING ? (
           <>
             {/* Collection Items */}
-            <ItemsGrid searchItems={searchItems} NavigateToItem={NavigateToItem} />
+            <Suspense fallback={<></>}>
+              <ItemsGrid
+                searchItems={searchItems}
+                NavigateToItem={NavigateToItem}
+              />
+            </Suspense>
 
             {/* Pagination LOAD MORE */}
             {currentPage < totalPages && (

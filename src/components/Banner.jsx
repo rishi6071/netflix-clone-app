@@ -6,7 +6,7 @@ const Banner = ({ bannerData: movie }) => {
   const navigate = useNavigate();
   const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
-  const NavigateToItem = (event) => navigate(`/item/${event.target.id}`);
+  const NavigateToItem = (id) => navigate(`/item/${id}`);
 
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
@@ -20,7 +20,9 @@ const Banner = ({ bannerData: movie }) => {
           id={movie?.id}
           style={{
             backgroundSize: "cover",
-            backgroundImage: `${movie ? `url(${BASE_IMG_URI}${movie?.backdrop_path})` : ""}`,
+            backgroundImage: `${
+              movie ? `url(${BASE_IMG_URI}${movie?.backdrop_path})` : ""
+            }`,
             backgroundPosition: "center center",
           }}
         >
@@ -29,14 +31,25 @@ const Banner = ({ bannerData: movie }) => {
               <i className="bx bxs-star"></i> <span>{movie?.vote_average}</span>
             </p>
 
-            <h1 className="banner__title">{movie?.title || movie?.name || movie?.original_name}</h1>
+            <h1 className="banner__title">
+              {movie?.title || movie?.name || movie?.original_name}
+            </h1>
 
             <div className="buttons__box">
-              <button type="button" className="banner__button">
+              <button
+                type="button"
+                className="banner__button"
+                onClick={() => NavigateToItem(movie?.id)}
+              >
                 <i className="bx bx-play"></i> <span>Play</span>
               </button>
-              <button type="button" className="banner__button" id={movie?.id} onClick={NavigateToItem}>
-                <i className="bx bx-info-circle" id={movie?.id}></i> <span id={movie?.id}>More Info</span>
+              <button
+                type="button"
+                className="banner__button"
+                onClick={() => NavigateToItem(movie?.id)}
+              >
+                <i className="bx bx-info-circle"></i>{" "}
+                <span id={movie?.id}>More Info</span>
               </button>
             </div>
 

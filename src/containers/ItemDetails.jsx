@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import "../App.css";
 import axios from "../lib/axios";
 
-// Movie Trailer
-import YouTube from "react-youtube";
-
 // Requests
 import { item_requests } from "../lib/request";
-import ItemsRow from "../components/ItemsRow";
 import NotFound from "../components/NotFound";
 import Loader from "../components/Loader";
 import { STATUSES } from "../App";
+
+const ItemsRow = lazy(() => import("../components/ItemsRow"));
+const YouTube = lazy(() => import("react-youtube"));
 
 const BASE_IMG_URI = process.env.REACT_APP_BASE_IMG_URI;
 
@@ -35,15 +34,23 @@ const ItemDetails = () => {
     }
 
     window.scrollTo(0, 0);
-    const { fetchDetails, fetchSimilarMovies, fetchWatchProviders, fetchImages, fetchVideos, fetchCredits } =
-      item_requests(id);
+    const {
+      fetchDetails,
+      fetchSimilarMovies,
+      fetchWatchProviders,
+      fetchImages,
+      fetchVideos,
+      fetchCredits,
+    } = item_requests(id);
 
     // Fetch Item Details
     const fetchItemDetails = async () => {
       await axios
         .get(fetchDetails)
         .then((res) => {
-          document.title = `${res.data?.name || res.data?.title || "Item Details"} | Netflix Clone`;
+          document.title = `${
+            res.data?.name || res.data?.title || "Item Details"
+          } | Netflix Clone`;
           setMovie(res.data);
           return res;
         })
@@ -202,9 +209,12 @@ const ItemDetails = () => {
 
             <div className="itemdetails__content__box">
               <div className="itemdetails__title__rating__box">
-                <h2 className="itemdetails__title">{movie?.title || movie?.original_title}</h2>
+                <h2 className="itemdetails__title">
+                  {movie?.title || movie?.original_title}
+                </h2>
                 <h6 className="itemdetails__rating">
-                  <span>{movie?.vote_average?.toFixed(1)}</span> <i className="bx bxs-star"></i>
+                  <span>{movie?.vote_average?.toFixed(1)}</span>{" "}
+                  <i className="bx bxs-star"></i>
                 </h6>
               </div>
 
@@ -219,7 +229,9 @@ const ItemDetails = () => {
                   <button
                     type="button"
                     id="overview"
-                    className={currentSection === "overview" ? "activeSection" : ""}
+                    className={
+                      currentSection === "overview" ? "activeSection" : ""
+                    }
                     onClick={ShiftSection}
                   >
                     Overview
@@ -227,7 +239,9 @@ const ItemDetails = () => {
                   <button
                     type="button"
                     id="trailers"
-                    className={currentSection === "trailers" ? "activeSection" : ""}
+                    className={
+                      currentSection === "trailers" ? "activeSection" : ""
+                    }
                     onClick={ShiftSection}
                   >
                     Trailers <span>&amp; More</span>
@@ -235,7 +249,9 @@ const ItemDetails = () => {
                   <button
                     type="button"
                     id="details"
-                    className={currentSection === "details" ? "activeSection" : ""}
+                    className={
+                      currentSection === "details" ? "activeSection" : ""
+                    }
                     onClick={ShiftSection}
                   >
                     Details
@@ -254,7 +270,10 @@ const ItemDetails = () => {
                           <>
                             {[...credits].map((cast, idx) => {
                               return (
-                                <span key={`cast_${idx + 1}_${cast.id}`} className="chip cc__chip">
+                                <span
+                                  key={`cast_${idx + 1}_${cast.id}`}
+                                  className="chip cc__chip"
+                                >
                                   {cast.original_name}
                                 </span>
                               );
@@ -268,7 +287,10 @@ const ItemDetails = () => {
                           <>
                             {[...movie?.genres].map((genre, idx) => {
                               return (
-                                <span key={`genre_${idx + 1}_${genre.iso_3166_1}`} className="chip cc__chip">
+                                <span
+                                  key={`genre_${idx + 1}_${genre.iso_3166_1}`}
+                                  className="chip cc__chip"
+                                >
                                   {genre.name}
                                 </span>
                               );
@@ -282,7 +304,10 @@ const ItemDetails = () => {
                           <>
                             {[...movie?.spoken_languages].map((lang, idx) => {
                               return (
-                                <span key={`language_${idx + 1}_${lang.iso_639_1}`} className="chip mb-2">
+                                <span
+                                  key={`language_${idx + 1}_${lang.iso_639_1}`}
+                                  className="chip mb-2"
+                                >
                                   {lang.english_name}
                                 </span>
                               );
@@ -297,12 +322,23 @@ const ItemDetails = () => {
                       {isTrailerLoading === STATUSES.LOADING ? (
                         <Loader />
                       ) : isTrailerLoading === STATUSES.IDLE ? (
-                        <YouTube videoId={trailerURL?.key} opts={opts} title={trailerURL?.name} />
+                        <Suspense fallback={<></>}>
+                          <YouTube
+                            videoId={trailerURL?.key}
+                            opts={opts}
+                            title={trailerURL?.name}
+                          />
+                        </Suspense>
                       ) : (
                         <div className="h-100 d-flex justify-content-center align-items-center">
                           <div className="d-flex align-items-center gap-2 text-white-50">
-                            <i style={{ fontSize: "25px" }} className="bx bx-error-circle"></i>
-                            <h6 style={{ transform: "translateY(2px)" }}>No Trailer Found!</h6>
+                            <i
+                              style={{ fontSize: "25px" }}
+                              className="bx bx-error-circle"
+                            ></i>
+                            <h6 style={{ transform: "translateY(2px)" }}>
+                              No Trailer Found!
+                            </h6>
                           </div>
                         </div>
                       )}
@@ -322,24 +358,29 @@ const ItemDetails = () => {
                             <p className="itemdetails__chip__box">
                               <span>Popularity: </span>
                               <span className="chip__span text-white">
-                                <i className="bx bxs-star"></i> {movie?.vote_average} ({movie?.vote_count})
+                                <i className="bx bxs-star"></i>{" "}
+                                {movie?.vote_average} ({movie?.vote_count})
                               </span>
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>Production Country: </span>
                               {movie.production_countries && (
                                 <>
-                                  {[...movie?.production_countries].map((country, idx) => {
-                                    return (
-                                      <span
-                                        key={`country_${idx + 1}_${country.id}`}
-                                        className="chip cc__chip"
-                                        title={country.name}
-                                      >
-                                        {country.name}
-                                      </span>
-                                    );
-                                  })}
+                                  {[...movie?.production_countries].map(
+                                    (country, idx) => {
+                                      return (
+                                        <span
+                                          key={`country_${idx + 1}_${
+                                            country.id
+                                          }`}
+                                          className="chip cc__chip"
+                                          title={country.name}
+                                        >
+                                          {country.name}
+                                        </span>
+                                      );
+                                    }
+                                  )}
                                 </>
                               )}
                             </p>
@@ -347,29 +388,39 @@ const ItemDetails = () => {
                               <span>Production By: </span>
                               {movie.production_companies && (
                                 <>
-                                  {[...movie?.production_companies].map((company, idx) => {
-                                    return (
-                                      <span
-                                        key={`company_${idx + 1}_${company.id}`}
-                                        className="chip cc__chip"
-                                        title={company.name}
-                                      >
-                                        {GetChipString(company.name)}
-                                      </span>
-                                    );
-                                  })}
+                                  {[...movie?.production_companies].map(
+                                    (company, idx) => {
+                                      return (
+                                        <span
+                                          key={`company_${idx + 1}_${
+                                            company.id
+                                          }`}
+                                          className="chip cc__chip"
+                                          title={company.name}
+                                        >
+                                          {GetChipString(company.name)}
+                                        </span>
+                                      );
+                                    }
+                                  )}
                                 </>
                               )}
                             </p>
                             <p className="itemdetails__chip__box">
                               <span>IMDB Id: </span>
-                              <span className="chip__span">{movie?.imdb_id}</span>
+                              <span className="chip__span">
+                                {movie?.imdb_id}
+                              </span>
                             </p>
                           </div>
                           <div className="col-xl-3">
                             <div className="itemdetails__chip__box watch__provider__container">
-                              <span className="watch__provider__heading">Watch Providers: </span>
-                              <WatchProviders data={watchProviders} />
+                              <span className="watch__provider__heading">
+                                Watch Providers:{" "}
+                              </span>
+                              <Suspense fallback={<></>}>
+                                <WatchProviders data={watchProviders} />
+                              </Suspense>
                             </div>
                           </div>
                         </div>
@@ -385,15 +436,26 @@ const ItemDetails = () => {
           <div className="related__content__box">
             {relatedMovies?.length > 0 && (
               <>
-                <h4 className="itemdetails__title related__title">Recommended For You</h4>
-                <ItemsRow title="Related Movies" data={relatedMovies} isLarge noTitle />
+                <h4 className="itemdetails__title related__title">
+                  Recommended For You
+                </h4>
+                <Suspense fallback={<></>}>
+                  <ItemsRow
+                    title="Related Movies"
+                    data={relatedMovies}
+                    isLarge
+                    noTitle
+                  />
+                </Suspense>
               </>
             )}
           </div>
 
           {/* MOVIE SCREENSHOTS */}
           <div className="movie__screenshots__box">
-            <MovieScreenshots data={screenshots} />
+            <Suspense fallback={<></>}>
+              <MovieScreenshots data={screenshots} />
+            </Suspense>
           </div>
         </>
       ) : (
@@ -487,7 +549,10 @@ const MovieScreenshots = ({ data }) => {
               {[...images].map((img, idx) => {
                 if (img?.file_path && idx < 8)
                   return (
-                    <div className="col-lg-4 col-sm-6 col-12 mt-4" key={`screenshot_${idx}_${img.height}`}>
+                    <div
+                      className="col-lg-4 col-sm-6 col-12 mt-4"
+                      key={`screenshot_${idx}_${img.height}`}
+                    >
                       <img
                         src={`${BASE_IMG_URI}${img.file_path}`}
                         className="screenshot__item"
@@ -515,7 +580,12 @@ const MovieScreenshots = ({ data }) => {
             aria-labelledby="screenshotLabel"
             aria-hidden="true"
           >
-            <button type="button" className="close__btn" data-bs-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              className="close__btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
               X
             </button>
 
