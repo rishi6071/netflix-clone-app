@@ -8,6 +8,7 @@ import { item_requests } from "../lib/request";
 import NotFound from "../components/NotFound";
 import Loader from "../components/Loader";
 import { STATUSES } from "../App";
+import { IMAGE_LOADING } from "../utils/common";
 
 const ItemsRow = lazy(() => import("../components/ItemsRow"));
 const YouTube = lazy(() => import("react-youtube"));
@@ -507,7 +508,7 @@ const WatchProviders = ({ data }) => {
                 referrerPolicy="no-referrer"
                 alt={provider.provider_name}
                 className="watch__provider__item"
-                loading="lazy"
+                loading={IMAGE_LOADING.LAZY}
               />
             </div>
           );
@@ -563,7 +564,7 @@ const MovieScreenshots = ({ data }) => {
                         onClick={() => {
                           setModalImgURL(`${BASE_IMG_URI}${img.file_path}`);
                         }}
-                        loading="lazy"
+                        loading={IMAGE_LOADING.LAZY}
                       />
                     </div>
                   );
